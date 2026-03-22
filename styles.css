@@ -14,6 +14,7 @@
   --icon-size: 68px;
   --icon-gap: 20px;
   --label-font-size: 11px;
+  --label-font: 'Roboto', 'Google Sans', sans-serif;
   --dock-height: 90px;
   --search-height: 52px;
   --transition: 0.2s ease;
@@ -57,6 +58,7 @@
   --search-bg: rgba(255, 255, 255, 0.22);
   --icon-bg: transparent;
   --icon-bg-hover: rgba(255,255,255,0.10);
+  --label-font: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
 }
 
 /* =========================================================
@@ -274,6 +276,7 @@ html, body {
 }
 
 .icon-label {
+  font-family: var(--label-font);
   font-size: var(--label-font-size);
   color: var(--label-color);
   text-shadow: var(--label-shadow);
