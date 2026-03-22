@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home Screen</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="theme-android">
+
+  <!-- Wallpaper layer -->
+  <div id="wallpaper"></div>
+
+  <!-- Main container -->
+  <div id="app">
+
+    <!-- Search bar -->
+    <div id="search-bar-container">
+      <form id="search-form">
+        <div id="search-bar">
+          <svg id="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" id="search-input" placeholder="Search..." autocomplete="off" />
+        </div>
+      </form>
+    </div>
+
+    <!-- Icon grid -->
+    <div id="grid-container">
+      <div id="icon-grid"></div>
+    </div>
+
+    <!-- Dock -->
+    <div id="dock-container">
+      <div id="dock"></div>
+    </div>
+
+  </div>
+
+  <!-- Context menu -->
+  <div id="context-menu" class="hidden">
+    <ul id="context-menu-list"></ul>
+  </div>
+
+  <!-- Icon edit modal -->
+  <div id="modal-overlay" class="hidden">
+    <div id="modal">
+      <h2 id="modal-title">Add Icon</h2>
+
+      <label>Name
+        <input type="text" id="modal-name" placeholder="My App" />
+      </label>
+
+      <label>URL
+        <input type="url" id="modal-url" placeholder="https://example.com" />
+      </label>
+
+      <label>Icon URL <span class="hint">(leave blank to auto-fetch favicon)</span>
+        <input type="url" id="modal-icon" placeholder="https://example.com/icon.png" />
+      </label>
+
+      <div id="modal-icon-preview-row">
+        <div id="modal-icon-preview"></div>
+        <button type="button" id="modal-fetch-favicon">Fetch favicon</button>
+      </div>
+
+      <label id="modal-dock-label">
+        <input type="checkbox" id="modal-dock" />
+        Pin to dock
+      </label>
+
+      <div id="modal-actions">
+        <button type="button" id="modal-cancel">Cancel</button>
+        <button type="button" id="modal-delete" class="danger hidden">Delete</button>
+        <button type="button" id="modal-save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings modal -->
+  <div id="settings-overlay" class="hidden">
+    <div id="settings-modal">
+      <h2>Settings</h2>
+
+      <section>
+        <h3>Theme</h3>
+        <div id="theme-toggle-group">
+          <button class="theme-btn active" data-theme="android">Android</button>
+          <button class="theme-btn" data-theme="ios">iOS</button>
+        </div>
+      </section>
+
+      <section>
+        <h3>Background</h3>
+        <div class="setting-row">
+          <label>Wallpaper URL
+            <input type="url" id="settings-wallpaper-url" placeholder="https://..." />
+          </label>
+          <button type="button" id="settings-apply-wallpaper">Apply</button>
+        </div>
+        <div class="setting-row">
+          <label>Background color
+            <input type="color" id="settings-bg-color" value="#1a1a2e" />
+          </label>
+          <button type="button" id="settings-apply-color">Apply</button>
+        </div>
+        <button type="button" id="settings-clear-wallpaper">Clear wallpaper (use color)</button>
+      </section>
+
+      <section>
+        <h3>Search Engine</h3>
+        <select id="settings-search-engine">
+          <option value="https://www.google.com/search?q=">Google</option>
+          <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+          <option value="https://search.brave.com/search?q=">Brave</option>
+          <option value="https://www.bing.com/search?q=">Bing</option>
+        </select>
+      </section>
+
+      <section>
+        <h3>Grid</h3>
+        <div class="setting-row">
+          <label>Columns
+            <input type="number" id="settings-columns" min="3" max="10" value="5" />
+          </label>
+        </div>
+      </section>
+
+      <section>
+        <h3>Data</h3>
+        <div id="data-buttons">
+          <button type="button" id="settings-export">Export JSON</button>
+          <button type="button" id="settings-import-btn">Import JSON</button>
+          <input type="file" id="settings-import-file" accept=".json" class="hidden" />
+        </div>
+      </section>
+
+      <div id="settings-actions">
+        <button type="button" id="settings-close">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings trigger (gear icon) -->
+  <button id="settings-btn" title="Settings" aria-label="Settings">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+    </svg>
+  </button>
+
+  <script src="storage.js"></script>
+  <script src="theme.js"></script>
+  <script src="icons.js"></script>
+  <script src="contextmenu.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
