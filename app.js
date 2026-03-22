@@ -165,26 +165,31 @@ const App = (() => {
   function applySearchEngine(engineUrl) {
     if (!engineUrl) return;
     // engineUrl is stored as "https://example.com/search?q=" — a prefix.
-    // The search form submits via GET: action + "?q=<value>" naturally.
-    // We intercept submit and redirect instead, to keep it simple.
-    const form = document.getElementById('search-form');
-    const input = document.getElementById('search-input');
+    // We intercept submit on both forms and redirect.
 
-    // Remove any previously attached interceptor
-    if (form._searchHandler) {
-      form.removeEventListener('submit', form._searchHandler);
+    function attachHandler(formId, inputId) {
+      const form = document.getElementById(formId);
+      const input = document.getElementById(inputId);
+      if (!form || !input) return;
+
+      if (form._searchHandler) {
+        form.removeEventListener('submit', form._searchHandler);
+      }
+
+      form._searchHandler = (e) => {
+        e.preventDefault();
+        const q = encodeURIComponent(input.value.trim());
+        if (!q) return;
+        window.open(engineUrl + q, '_blank');
+        input.value = '';
+        input.blur();
+      };
+
+      form.addEventListener('submit', form._searchHandler);
     }
 
-    form._searchHandler = (e) => {
-      e.preventDefault();
-      const q = encodeURIComponent(input.value.trim());
-      if (!q) return;
-      window.open(engineUrl + q, '_blank');
-      input.value = '';
-      input.blur();
-    };
-
-    form.addEventListener('submit', form._searchHandler);
+    attachHandler('search-form', 'search-input');
+    attachHandler('android-search-form', 'android-search-input');
   }
 
   // ── Reload (after import) ─────────────────────────────────

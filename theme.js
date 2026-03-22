@@ -5,6 +5,7 @@
 
 const Theme = (() => {
   const THEMES = ['android', 'ios'];
+  const ICON_BG_MODES = ['light', 'dark', 'auto'];
 
   function applyTheme(theme) {
     if (!THEMES.includes(theme)) theme = 'android';
@@ -14,6 +15,17 @@ const Theme = (() => {
     // Sync settings UI
     document.querySelectorAll('.theme-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.theme === theme);
+    });
+  }
+
+  function applyIconBgMode(mode) {
+    if (!ICON_BG_MODES.includes(mode)) mode = 'auto';
+    document.body.classList.remove(...ICON_BG_MODES.map(m => `icon-bg-${m}`));
+    document.body.classList.add(`icon-bg-${mode}`);
+
+    // Sync settings UI
+    document.querySelectorAll('.icon-bg-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.mode === mode);
     });
   }
 
@@ -41,7 +53,8 @@ const Theme = (() => {
     applyBgColor(settings.bgColor);
     if (settings.wallpaperUrl) applyWallpaper(settings.wallpaperUrl);
     applyGridCols(settings.gridCols);
+    applyIconBgMode(settings.iconBgMode || 'auto');
   }
 
-  return { applyTheme, applyWallpaper, applyBgColor, applyGridCols, init };
+  return { applyTheme, applyWallpaper, applyBgColor, applyGridCols, applyIconBgMode, init };
 })();

@@ -15,6 +15,7 @@ const DEFAULT_SETTINGS = {
   bgColor: '#1a1a2e',
   searchEngine: 'https://www.google.com/search?q=',
   gridCols: 5,
+  iconBgMode: 'auto',
 };
 
 // ── Helpers ──────────────────────────────────────────────

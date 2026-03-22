@@ -222,6 +222,7 @@ const ContextMenu = (() => {
     const overlay        = document.getElementById('settings-overlay');
     const closeBtn       = document.getElementById('settings-close');
     const themeBtns      = document.querySelectorAll('.theme-btn');
+    const iconBgBtns     = document.querySelectorAll('.icon-bg-btn');
     const wallpaperInput = document.getElementById('settings-wallpaper-url');
     const applyWallBtn   = document.getElementById('settings-apply-wallpaper');
     const bgColorInput   = document.getElementById('settings-bg-color');
@@ -244,6 +245,14 @@ const ContextMenu = (() => {
         const theme = btn.dataset.theme;
         Theme.applyTheme(theme);
         App.updateSetting('theme', theme);
+      });
+    });
+
+    iconBgBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const mode = btn.dataset.mode;
+        Theme.applyIconBgMode(mode);
+        App.updateSetting('iconBgMode', mode);
       });
     });
 
@@ -304,6 +313,12 @@ const ContextMenu = (() => {
         if (opt.value === s.searchEngine) { opt.selected = true; matched = true; }
       }
       if (!matched) searchSel.selectedIndex = 0;
+
+      // Sync icon background mode buttons
+      const currentMode = s.iconBgMode || 'auto';
+      iconBgBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === currentMode);
+      });
 
       overlay.classList.remove('hidden');
     }
