@@ -41,18 +41,20 @@ const App = (() => {
       container.addEventListener('dragover', (e) => {
         e.preventDefault();
         e.dataTransfer.dropEffect = 'move';
-      });
-      container.addEventListener('drop', (e) => {
-        e.preventDefault();
-        // If dropped onto the container itself (not an icon), append dragged item
+        // When dragging over the container's empty area (not over an icon),
+        // move the dragged icon to the end of this container so it follows the cursor.
         if (e.target === container) {
           const id = e.dataTransfer.getData('text/plain');
           const el = document.querySelector(`[data-id="${id}"]`);
-          if (el) {
+          if (el && el.parentNode !== container) {
             container.appendChild(el);
-            persistOrder();
           }
         }
+      });
+      container.addEventListener('drop', (e) => {
+        e.preventDefault();
+        // The live-move in dragover already placed the icon; just persist order.
+        persistOrder();
       });
     });
   }

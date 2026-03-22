@@ -62,7 +62,7 @@ const Icons = (() => {
 
     // Click → open URL
     wrapper.addEventListener('click', (e) => {
-      if (wrapper.classList.contains('dragging')) return;
+      if (wrapper.dataset.dragged === 'true') return;
       if (opts.onOpen) opts.onOpen(icon);
       else window.open(icon.url, '_blank');
     });
@@ -88,33 +88,34 @@ const Icons = (() => {
   // ── Drag & Drop ───────────────────────────────────────────
 
   let dragSrc = null;
-  let placeholder = null;
 
   function attachDrag(el) {
     el.addEventListener('dragstart', onDragStart);
-    el.addEventListener('dragend', onDragEnd);
-    el.addEventListener('dragover', onDragOver);
-    el.addEventListener('drop', onDrop);
-    el.addEventListener('dragleave', onDragLeave);
+    el.addEventListener('dragend',   onDragEnd);
+    el.addEventListener('dragover',  onDragOver);
+    el.addEventListener('drop',      onDrop);
   }
 
   function onDragStart(e) {
     dragSrc = e.currentTarget;
-    dragSrc.classList.add('dragging');
+    dragSrc.dataset.dragged = 'true';
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/plain', dragSrc.dataset.id);
-
-    // Create placeholder
-    placeholder = document.createElement('div');
-    placeholder.className = 'icon-placeholder';
+    // Slight delay so the browser captures the non-faded image as the drag ghost
+    requestAnimationFrame(() => {
+      if (dragSrc) dragSrc.classList.add('dragging');
+    });
   }
 
   function onDragEnd(e) {
-    if (dragSrc) dragSrc.classList.remove('dragging');
-    if (placeholder && placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
-    document.querySelectorAll('.icon-wrapper.drag-over').forEach(el => el.classList.remove('drag-over'));
-    dragSrc = null;
-    placeholder = null;
+    if (dragSrc) {
+      dragSrc.classList.remove('dragging');
+      // Keep dragged flag briefly to suppress accidental click
+      setTimeout(() => {
+        if (dragSrc) dragSrc.dataset.dragged = 'false';
+        dragSrc = null;
+      }, 100);
+    }
     // Persist new order
     if (window.App) App.persistOrder();
   }
@@ -124,33 +125,28 @@ const Icons = (() => {
     e.dataTransfer.dropEffect = 'move';
     const target = e.currentTarget;
     if (!dragSrc || target === dragSrc) return;
-    target.classList.add('drag-over');
 
-    // Insert placeholder before or after based on cursor position
+    // Determine insert position based on cursor vs element midpoint
     const rect = target.getBoundingClientRect();
     const midX = rect.left + rect.width / 2;
     const parent = target.parentNode;
-    if (e.clientX < midX) {
-      parent.insertBefore(placeholder, target);
-    } else {
-      parent.insertBefore(placeholder, target.nextSibling);
-    }
-  }
 
-  function onDragLeave(e) {
-    e.currentTarget.classList.remove('drag-over');
+    if (e.clientX < midX) {
+      // Insert dragSrc before target if it isn't already there
+      if (target.previousElementSibling !== dragSrc) {
+        parent.insertBefore(dragSrc, target);
+      }
+    } else {
+      // Insert dragSrc after target if it isn't already there
+      if (target.nextElementSibling !== dragSrc) {
+        parent.insertBefore(dragSrc, target.nextSibling);
+      }
+    }
   }
 
   function onDrop(e) {
     e.preventDefault();
-    const target = e.currentTarget;
-    target.classList.remove('drag-over');
-    if (!dragSrc || target === dragSrc) return;
-
-    const parent = target.parentNode;
-    if (placeholder && placeholder.parentNode === parent) {
-      parent.insertBefore(dragSrc, placeholder);
-    }
+    // Insertion already happened live in onDragOver; nothing more needed here.
   }
 
   // ── Long press (mobile) ───────────────────────────────────
