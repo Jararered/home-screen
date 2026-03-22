@@ -4,6 +4,17 @@
  */
 
 const ContextMenu = (() => {
+  // ── Helpers ───────────────────────────────────────────────
+
+  /**
+   * Ensures a URL has a scheme. Bare addresses like "youtube.com" become
+   * "https://youtube.com" so they resolve correctly in window.open().
+   */
+  function normalizeUrl(url) {
+    if (/^https?:\/\//i.test(url)) return url;
+    return 'https://' + url;
+  }
+
   const menu = document.getElementById('context-menu');
   const menuList = document.getElementById('context-menu-list');
 
@@ -160,11 +171,12 @@ const ContextMenu = (() => {
 
     saveBtn.addEventListener('click', () => {
       const name = nameInput.value.trim();
-      const url  = urlInput.value.trim();
-      if (!name || !url) {
+      const rawUrl  = urlInput.value.trim();
+      if (!name || !rawUrl) {
         alert('Name and URL are required.');
         return;
       }
+      const url = normalizeUrl(rawUrl);
       const iconData = {
         name,
         url,

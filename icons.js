@@ -12,7 +12,8 @@ const Icons = (() => {
    */
   function faviconUrl(siteUrl) {
     try {
-      const origin = new URL(siteUrl).origin;
+      const normalized = /^https?:\/\//i.test(siteUrl) ? siteUrl : 'https://' + siteUrl;
+      const origin = new URL(normalized).origin;
       return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(origin)}&sz=128`;
     } catch {
       return '';
