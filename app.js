@@ -49,7 +49,7 @@ const App = (() => {
           const id = e.dataTransfer.getData('text/plain');
           const el = document.querySelector(`[data-id="${id}"]`);
           if (el) {
-            container.insertBefore(el, container.lastElementChild); // before add-btn
+            container.appendChild(el);
             persistOrder();
           }
         }
@@ -73,9 +73,6 @@ const App = (() => {
       grid.appendChild(el);
     });
 
-    // Add "+ Add" button at end of grid
-    const addBtn = Icons.createAddButton(() => ContextMenu.Modal.open(null, { inDock: false }));
-    grid.appendChild(addBtn);
 
     dockIcons.forEach(ic => {
       const el = Icons.createIconElement(ic, {

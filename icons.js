@@ -84,30 +84,6 @@ const Icons = (() => {
     return wrapper;
   }
 
-  /**
-   * Creates the "+ Add" placeholder button.
-   */
-  function createAddButton(onAdd) {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'add-icon-btn icon-wrapper';
-    wrapper.title = 'Add icon';
-
-    const imgWrap = document.createElement('div');
-    imgWrap.className = 'icon-img-wrap';
-    imgWrap.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-      <line x1="12" y1="5" x2="12" y2="19"/>
-      <line x1="5" y1="12" x2="19" y2="12"/>
-    </svg>`;
-
-    const label = document.createElement('div');
-    label.className = 'icon-label';
-    label.textContent = 'Add';
-
-    wrapper.appendChild(imgWrap);
-    wrapper.appendChild(label);
-    wrapper.addEventListener('click', onAdd);
-    return wrapper;
-  }
 
   // ── Drag & Drop ───────────────────────────────────────────
 
@@ -222,5 +198,5 @@ const Icons = (() => {
     });
   }
 
-  return { createIconElement, createAddButton, fetchFaviconSrc, faviconUrl };
+  return { createIconElement, fetchFaviconSrc, faviconUrl };
 })();

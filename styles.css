@@ -46,6 +46,14 @@
 }
 
 /* =========================================================
+   Android Theme Overrides
+   ========================================================= */
+
+.theme-android {
+  --icon-radius: 50%;
+}
+
+/* =========================================================
    iOS Theme Overrides
    ========================================================= */
 
@@ -59,6 +67,61 @@
   --icon-bg: transparent;
   --icon-bg-hover: rgba(255,255,255,0.10);
   --label-font: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+
+/* =========================================================
+   Icon Background Mode — Dark (explicit)
+   ========================================================= */
+
+.icon-bg-dark {
+  --icon-bg: rgba(0, 0, 0, 0.45);
+  --icon-bg-hover: rgba(0, 0, 0, 0.60);
+}
+
+/* iOS keeps transparent bg regardless of mode */
+.theme-ios.icon-bg-dark {
+  --icon-bg: transparent;
+  --icon-bg-hover: rgba(255,255,255,0.10);
+}
+
+/* =========================================================
+   Icon Background Mode — Light (explicit)
+   ========================================================= */
+
+.icon-bg-light {
+  --icon-bg: rgba(255, 255, 255, 0.90);
+  --icon-bg-hover: rgba(255, 255, 255, 1);
+}
+
+.theme-ios.icon-bg-light {
+  --icon-bg: transparent;
+  --icon-bg-hover: rgba(255,255,255,0.10);
+}
+
+/* =========================================================
+   Icon Background Mode — Auto (follows system preference)
+   ========================================================= */
+
+@media (prefers-color-scheme: dark) {
+  .icon-bg-auto {
+    --icon-bg: rgba(0, 0, 0, 0.45);
+    --icon-bg-hover: rgba(0, 0, 0, 0.60);
+  }
+  .theme-ios.icon-bg-auto {
+    --icon-bg: transparent;
+    --icon-bg-hover: rgba(255,255,255,0.10);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .icon-bg-auto {
+    --icon-bg: rgba(255, 255, 255, 0.90);
+    --icon-bg-hover: rgba(255, 255, 255, 1);
+  }
+  .theme-ios.icon-bg-auto {
+    --icon-bg: transparent;
+    --icon-bg-hover: rgba(255,255,255,0.10);
+  }
 }
 
 /* =========================================================
@@ -152,6 +215,80 @@ html, body {
 
 #search-input::placeholder {
   color: var(--search-placeholder);
+}
+
+/* Theme-based search bar visibility */
+.android-only {
+  display: none;
+}
+
+.non-android-only {
+  display: block;
+}
+
+.theme-android .android-only {
+  display: block;
+}
+
+.theme-android .non-android-only {
+  display: none;
+}
+
+/* Android Google Search Widget */
+#android-search-form {
+  width: 100%;
+  max-width: 560px;
+}
+
+#android-search-widget {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 28px;
+  padding: 0 16px 0 14px;
+  height: var(--search-height);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: box-shadow var(--transition);
+}
+
+#android-search-widget:focus-within {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+#android-search-logo {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+#android-search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: #202124;
+  caret-color: #4285F4;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+#android-search-input::placeholder {
+  color: #5f6368;
+}
+
+#android-search-mic {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  color: #4285F4;
+  cursor: pointer;
+  opacity: 0.85;
+  transition: opacity var(--transition);
+}
+
+#android-search-mic:hover {
+  opacity: 1;
 }
 
 /* =========================================================
@@ -270,9 +407,15 @@ html, body {
   object-fit: cover;
 }
 
-/* Android adaptive icon style: image slightly smaller, bg color shows */
+/* Android circle icon style: image is ~80% of the circle with visible background margin */
 .theme-android .icon-img-wrap {
-  background: var(--icon-bg-color, rgba(255,255,255,0.12));
+  background: var(--icon-bg);
+}
+
+.theme-android .icon-img-wrap img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
 }
 
 .icon-label {
@@ -312,35 +455,7 @@ html, body {
   z-index: 2;
 }
 
-/* Add icon button */
-.add-icon-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  width: var(--icon-size);
-}
 
-.add-icon-btn .icon-img-wrap {
-  border: 2px dashed rgba(255,255,255,0.35);
-  background: rgba(255,255,255,0.06);
-}
-
-.add-icon-btn .icon-img-wrap svg {
-  width: 28px;
-  height: 28px;
-  color: rgba(255,255,255,0.5);
-}
-
-.add-icon-btn:hover .icon-img-wrap {
-  background: rgba(255,255,255,0.12);
-  border-color: rgba(255,255,255,0.6);
-}
-
-.add-icon-btn .icon-label {
-  color: rgba(255,255,255,0.5);
-}
 
 /* =========================================================
    Context Menu
@@ -627,7 +742,8 @@ html, body {
   border-color: var(--accent);
 }
 
-#theme-toggle-group {
+#theme-toggle-group,
+#icon-bg-toggle-group {
   display: flex;
   gap: 8px;
 }
@@ -708,19 +824,22 @@ button.danger:hover,
 }
 
 /* Theme toggle buttons */
-.theme-btn {
+.theme-btn,
+.icon-bg-btn {
   background: rgba(255,255,255,0.08);
   color: rgba(255,255,255,0.6);
   flex: 1;
   text-align: center;
 }
 
-.theme-btn.active {
+.theme-btn.active,
+.icon-bg-btn.active {
   background: var(--accent);
   color: #fff;
 }
 
-.theme-btn:hover:not(.active) {
+.theme-btn:hover:not(.active),
+.icon-bg-btn:hover:not(.active) {
   background: rgba(255,255,255,0.15);
 }
 
