@@ -4,22 +4,22 @@
  */
 
 const STORAGE_KEYS = {
-  ICONS: 'hs_icons',
-  DOCK: 'hs_dock',
-  SETTINGS: 'hs_settings',
+  ICONS: "hs_icons",
+  DOCK: "hs_dock",
+  SETTINGS: "hs_settings",
 };
 
 const DEFAULT_SETTINGS = {
-  theme: 'android',
-  wallpaperUrl: '',
-  bgColor: '#1a1a2e',
-  searchEngine: 'https://www.google.com/search?q=',
+  theme: "android",
+  wallpaperUrl: "",
+  bgColor: "#1a1a2e",
+  searchEngine: "https://www.google.com/search?q=",
   gridCols: 5,
-  iconBgMode: 'auto',
-  iconPreset: 'android',
+  iconBgMode: "auto",
+  iconPreset: "android",
   iconRadius: 22,
   iconImageSize: 80,
-  searchBarPreset: 'google',
+  searchBarPreset: "google",
 };
 
 // ── Helpers ──────────────────────────────────────────────
@@ -37,7 +37,7 @@ function safeWrite(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (e) {
-    console.error('Storage write failed', key, e);
+    console.error("Storage write failed", key, e);
   }
 }
 
@@ -74,11 +74,13 @@ function exportData() {
     icons: loadIcons(),
     settings: loadSettings(),
   };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify(data, null, 2)], {
+    type: "application/json",
+  });
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  const a = document.createElement("a");
   a.href = url;
-  a.download = 'home-screen-backup.json';
+  a.download = "home-screen-backup.json";
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -88,7 +90,7 @@ function importData(file, onSuccess, onError) {
   reader.onload = (e) => {
     try {
       const data = JSON.parse(e.target.result);
-      if (!Array.isArray(data.icons)) throw new Error('Invalid backup format');
+      if (!Array.isArray(data.icons)) throw new Error("Invalid backup format");
       saveIcons(data.icons);
       if (data.settings) saveSettings(data.settings);
       onSuccess(data);
@@ -96,7 +98,7 @@ function importData(file, onSuccess, onError) {
       onError(err);
     }
   };
-  reader.onerror = () => onError(new Error('File read error'));
+  reader.onerror = () => onError(new Error("File read error"));
   reader.readAsText(file);
 }
 

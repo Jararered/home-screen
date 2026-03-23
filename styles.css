@@ -2,7 +2,9 @@
    CSS Custom Properties & Reset
    ========================================================= */
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -14,7 +16,7 @@
   --icon-size: 68px;
   --icon-gap: 20px;
   --label-font-size: 11px;
-  --label-font: 'Roboto', 'Google Sans', sans-serif;
+  --label-font: "Roboto", "Google Sans", sans-serif;
   --dock-height: 90px;
   --search-height: 52px;
   --transition: 0.2s ease;
@@ -25,7 +27,7 @@
   --icon-bg-hover: rgba(255, 255, 255, 0.22);
   --icon-shadow: 0 2px 8px var(--shadow-color);
   --label-color: #fff;
-  --label-shadow: 0 1px 3px rgba(0,0,0,0.7);
+  --label-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
   --dock-bg: rgba(255, 255, 255, 0.15);
   --dock-blur: blur(20px);
   --dock-radius: 28px;
@@ -41,7 +43,7 @@
   --modal-radius: 18px;
   --accent: #4f8ef7;
   --danger: #e05252;
-  --settings-btn-color: rgba(255,255,255,0.75);
+  --settings-btn-color: rgba(255, 255, 255, 0.75);
 
   /* Preset defaults (icon appearance) */
   --icon-radius: 22px;
@@ -50,7 +52,7 @@
   --icon-img-object-fit: contain;
 
   /* Preset defaults (search bar) */
-  --search-bar-style: 'google';
+  --search-bar-style: "google";
 }
 
 /* =========================================================
@@ -108,7 +110,7 @@
   --dock-blur: blur(30px);
   --search-bg: rgba(255, 255, 255, 0.22);
   --search-radius: 14px;
-  --label-font: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  --label-font: -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif;
 }
 
 /* Android visual preset defaults (already in :root) */
@@ -126,7 +128,7 @@
 
 .icon-bg-dark {
   --icon-bg: rgba(0, 0, 0, 0.45);
-  --icon-bg-hover: rgba(0, 0, 0, 0.60);
+  --icon-bg-hover: rgba(0, 0, 0, 0.6);
 }
 
 /* =========================================================
@@ -134,10 +136,9 @@
    ========================================================= */
 
 .icon-bg-light {
-  --icon-bg: rgba(255, 255, 255, 0.90);
+  --icon-bg: rgba(255, 255, 255, 0.9);
   --icon-bg-hover: rgba(255, 255, 255, 1);
 }
-
 
 /* =========================================================
    Icon Background Mode — Auto (follows system preference)
@@ -146,13 +147,13 @@
 @media (prefers-color-scheme: dark) {
   .icon-bg-auto {
     --icon-bg: rgba(0, 0, 0, 0.45);
-    --icon-bg-hover: rgba(0, 0, 0, 0.60);
+    --icon-bg-hover: rgba(0, 0, 0, 0.6);
   }
 }
 
 @media (prefers-color-scheme: light) {
   .icon-bg-auto {
-    --icon-bg: rgba(255, 255, 255, 0.90);
+    --icon-bg: rgba(255, 255, 255, 0.9);
     --icon-bg-hover: rgba(255, 255, 255, 1);
   }
 }
@@ -161,11 +162,13 @@
    Body & Wallpaper
    ========================================================= */
 
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   user-select: none;
 }
 
@@ -177,7 +180,9 @@ html, body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition: background-color 0.4s ease, background-image 0.4s ease;
+  transition:
+    background-color 0.4s ease,
+    background-image 0.4s ease;
 }
 
 /* =========================================================
@@ -220,12 +225,14 @@ html, body {
   border-radius: var(--search-radius);
   padding: 0 18px;
   height: var(--search-height);
-  border: 1px solid rgba(255,255,255,0.15);
-  transition: border-color var(--transition), box-shadow var(--transition);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
 }
 
 #search-bar:focus-within {
-  border-color: rgba(255,255,255,0.35);
+  border-color: rgba(255, 255, 255, 0.35);
   box-shadow: 0 0 0 2px rgba(79, 142, 247, 0.3);
 }
 
@@ -288,12 +295,16 @@ html, body {
   border-radius: 28px;
   padding: 0 16px 0 14px;
   height: var(--search-height);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15);
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.25),
+    0 1px 3px rgba(0, 0, 0, 0.15);
   transition: box-shadow var(--transition);
 }
 
 #android-search-widget:focus-within {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 #android-search-logo {
@@ -309,8 +320,9 @@ html, body {
   outline: none;
   font-size: 16px;
   color: #202124;
-  caret-color: #4285F4;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  caret-color: #4285f4;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 #android-search-input::placeholder {
@@ -321,7 +333,7 @@ html, body {
   width: 22px;
   height: 22px;
   flex-shrink: 0;
-  color: #4285F4;
+  color: #4285f4;
   cursor: pointer;
   opacity: 0.85;
   transition: opacity var(--transition);
@@ -387,12 +399,12 @@ html, body {
   min-height: var(--dock-height);
   min-width: 80px;
   padding: 12px 20px;
-  border: 1px solid rgba(255,255,255,0.18);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 #dock:empty::after {
-  content: 'Right-click to add dock icons';
-  color: rgba(255,255,255,0.4);
+  content: "Right-click to add dock icons";
+  color: rgba(255, 255, 255, 0.4);
   font-size: 12px;
   pointer-events: none;
 }
@@ -410,14 +422,14 @@ html, body {
   position: relative;
   width: var(--icon-size);
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.18s ease, opacity 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    opacity 0.18s ease;
 }
 
 .icon-wrapper.dragging {
   opacity: 0.4;
 }
-
-
 
 .icon-img-wrap {
   width: var(--icon-size);
@@ -429,7 +441,9 @@ html, body {
   justify-content: center;
   overflow: hidden;
   box-shadow: var(--icon-shadow);
-  transition: transform var(--transition), background var(--transition);
+  transition:
+    transform var(--transition),
+    background var(--transition);
   position: relative;
 }
 
@@ -479,11 +493,9 @@ html, body {
   align-items: center;
   justify-content: center;
   color: #333;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   z-index: 2;
 }
-
-
 
 /* =========================================================
    Context Menu
@@ -495,17 +507,23 @@ html, body {
   background: rgba(40, 40, 55, 0.92);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 14px;
   padding: 6px;
   min-width: 180px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   animation: ctx-fade-in 0.12s ease;
 }
 
 @keyframes ctx-fade-in {
-  from { opacity: 0; transform: scale(0.95); }
-  to   { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 #context-menu.hidden {
@@ -529,7 +547,7 @@ html, body {
 }
 
 #context-menu-list li:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 #context-menu-list li.danger {
@@ -550,7 +568,7 @@ html, body {
   position: fixed;
   inset: 0;
   z-index: 900;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -563,26 +581,36 @@ html, body {
 }
 
 @keyframes overlay-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 #modal {
   background: var(--modal-bg);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--modal-radius);
   padding: 28px 28px 22px;
   width: min(460px, 92vw);
   display: flex;
   flex-direction: column;
   gap: 16px;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
   animation: modal-in 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes modal-in {
-  from { opacity: 0; transform: translateY(20px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 #modal h2 {
@@ -598,7 +626,7 @@ html, body {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 #modal label input[type="text"],
@@ -621,7 +649,7 @@ html, body {
   font-size: 10px;
   text-transform: none;
   letter-spacing: 0;
-  color: rgba(255,255,255,0.35);
+  color: rgba(255, 255, 255, 0.35);
 }
 
 #modal-icon-preview-row {
@@ -681,7 +709,7 @@ html, body {
   position: fixed;
   inset: 0;
   z-index: 900;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -694,7 +722,7 @@ html, body {
 
 #settings-modal {
   background: var(--modal-bg);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--modal-radius);
   padding: 28px;
   width: min(480px, 94vw);
@@ -703,7 +731,7 @@ html, body {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
 }
 
 #settings-modal h2 {
@@ -716,7 +744,7 @@ html, body {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255, 255, 255, 0.45);
   margin-bottom: 10px;
 }
 
@@ -738,7 +766,7 @@ html, body {
   flex-direction: column;
   gap: 6px;
   font-size: 12px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 #settings-modal input[type="url"],
@@ -798,7 +826,9 @@ button {
   font-family: inherit;
   border-radius: 10px;
   padding: 9px 18px;
-  transition: background var(--transition), opacity var(--transition);
+  transition:
+    background var(--transition),
+    opacity var(--transition);
 }
 
 button:active {
@@ -827,7 +857,7 @@ button:active {
 #settings-clear-wallpaper,
 #settings-export,
 #settings-import-btn {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   color: #e0e0e0;
 }
 
@@ -836,7 +866,7 @@ button:active {
 #settings-clear-wallpaper:hover,
 #settings-export:hover,
 #settings-import-btn:hover {
-  background: rgba(255,255,255,0.18);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 /* Danger */
@@ -856,8 +886,8 @@ button.danger:hover,
 .icon-bg-btn,
 .icon-preset-btn,
 .search-bar-preset-btn {
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.6);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.6);
   flex: 1;
   text-align: center;
 }
@@ -874,13 +904,13 @@ button.danger:hover,
 .icon-bg-btn:hover:not(.active),
 .icon-preset-btn:hover:not(.active),
 .search-bar-preset-btn:hover:not(.active) {
-  background: rgba(255,255,255,0.15);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 #icon-custom-settings {
   margin-top: 12px;
   padding: 12px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 10px;
 }
 
@@ -897,7 +927,7 @@ button.danger:hover,
   flex-direction: column;
   gap: 6px;
   font-size: 11px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 #icon-custom-settings input[type="range"] {
@@ -907,7 +937,7 @@ button.danger:hover,
 
 #icon-radius-value,
 #icon-image-size-value {
-  color: rgba(255,255,255,0.7);
+  color: rgba(255, 255, 255, 0.7);
   font-size: 12px;
 }
 
@@ -927,10 +957,10 @@ button.danger:hover,
   height: 36px;
   padding: 7px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   color: var(--settings-btn-color);
   display: flex;
   align-items: center;
@@ -938,7 +968,7 @@ button.danger:hover,
 }
 
 #settings-btn:hover {
-  background: rgba(255,255,255,0.22);
+  background: rgba(255, 255, 255, 0.22);
 }
 
 #settings-btn svg {
@@ -954,8 +984,6 @@ button.danger:hover,
   display: none !important;
 }
 
-
-
 /* =========================================================
    Scrollbar (for settings modal)
    ========================================================= */
@@ -967,6 +995,6 @@ button.danger:hover,
   background: transparent;
 }
 #settings-modal::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.2);
   border-radius: 3px;
 }

@@ -12,11 +12,13 @@ const Icons = (() => {
    */
   function faviconUrl(siteUrl) {
     try {
-      const normalized = /^https?:\/\//i.test(siteUrl) ? siteUrl : 'https://' + siteUrl;
+      const normalized = /^https?:\/\//i.test(siteUrl)
+        ? siteUrl
+        : "https://" + siteUrl;
       const origin = new URL(normalized).origin;
       return `https://www.google.com/s2/favicons?domain=${encodeURIComponent(origin)}&sz=128`;
     } catch {
-      return '';
+      return "";
     }
   }
 
@@ -28,47 +30,48 @@ const Icons = (() => {
    * @param {Object} opts - { onEdit, onOpen }
    */
   function createIconElement(icon, opts = {}) {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'icon-wrapper';
+    const wrapper = document.createElement("div");
+    wrapper.className = "icon-wrapper";
     wrapper.dataset.id = icon.id;
     wrapper.draggable = true;
 
     // Image container
-    const imgWrap = document.createElement('div');
-    imgWrap.className = 'icon-img-wrap';
+    const imgWrap = document.createElement("div");
+    imgWrap.className = "icon-img-wrap";
 
-    const img = document.createElement('img');
+    const img = document.createElement("img");
     const src = icon.iconUrl || faviconUrl(icon.url);
     img.src = src;
     img.alt = icon.name;
-    img.loading = 'lazy';
+    img.loading = "lazy";
     img.onerror = () => {
       // Fallback: render first letter of name
-      img.style.display = 'none';
-      const fallback = document.createElement('span');
-      fallback.textContent = (icon.name || '?')[0].toUpperCase();
-      fallback.style.cssText = 'font-size:22px;font-weight:700;color:rgba(255,255,255,0.8);';
+      img.style.display = "none";
+      const fallback = document.createElement("span");
+      fallback.textContent = (icon.name || "?")[0].toUpperCase();
+      fallback.style.cssText =
+        "font-size:22px;font-weight:700;color:rgba(255,255,255,0.8);";
       imgWrap.appendChild(fallback);
     };
     imgWrap.appendChild(img);
 
     // Label
-    const label = document.createElement('div');
-    label.className = 'icon-label';
+    const label = document.createElement("div");
+    label.className = "icon-label";
     label.textContent = icon.name;
 
     wrapper.appendChild(imgWrap);
     wrapper.appendChild(label);
 
     // Click → open URL
-    wrapper.addEventListener('click', (e) => {
-      if (wrapper.dataset.dragged === 'true') return;
+    wrapper.addEventListener("click", (e) => {
+      if (wrapper.dataset.dragged === "true") return;
       if (opts.onOpen) opts.onOpen(icon);
-      else window.open(icon.url, '_blank');
+      else window.open(icon.url, "_blank");
     });
 
     // Right-click → edit menu (handled by contextmenu.js)
-    wrapper.addEventListener('contextmenu', (e) => {
+    wrapper.addEventListener("contextmenu", (e) => {
       e.preventDefault();
       if (opts.onContextMenu) opts.onContextMenu(e, icon);
     });
@@ -84,35 +87,34 @@ const Icons = (() => {
     return wrapper;
   }
 
-
   // ── Drag & Drop ───────────────────────────────────────────
 
   let dragSrc = null;
 
   function attachDrag(el) {
-    el.addEventListener('dragstart', onDragStart);
-    el.addEventListener('dragend',   onDragEnd);
-    el.addEventListener('dragover',  onDragOver);
-    el.addEventListener('drop',      onDrop);
+    el.addEventListener("dragstart", onDragStart);
+    el.addEventListener("dragend", onDragEnd);
+    el.addEventListener("dragover", onDragOver);
+    el.addEventListener("drop", onDrop);
   }
 
   function onDragStart(e) {
     dragSrc = e.currentTarget;
-    dragSrc.dataset.dragged = 'true';
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', dragSrc.dataset.id);
+    dragSrc.dataset.dragged = "true";
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", dragSrc.dataset.id);
     // Slight delay so the browser captures the non-faded image as the drag ghost
     requestAnimationFrame(() => {
-      if (dragSrc) dragSrc.classList.add('dragging');
+      if (dragSrc) dragSrc.classList.add("dragging");
     });
   }
 
   function onDragEnd(e) {
     if (dragSrc) {
-      dragSrc.classList.remove('dragging');
+      dragSrc.classList.remove("dragging");
       // Keep dragged flag briefly to suppress accidental click
       setTimeout(() => {
-        if (dragSrc) dragSrc.dataset.dragged = 'false';
+        if (dragSrc) dragSrc.dataset.dragged = "false";
         dragSrc = null;
       }, 100);
     }
@@ -122,7 +124,7 @@ const Icons = (() => {
 
   function onDragOver(e) {
     e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
+    e.dataTransfer.dropEffect = "move";
     const target = e.currentTarget;
     if (!dragSrc || target === dragSrc) return;
 
@@ -155,25 +157,33 @@ const Icons = (() => {
     let timer = null;
     let startX, startY;
 
-    el.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-      startY = e.touches[0].clientY;
-      timer = setTimeout(() => {
-        callback(e.touches[0]);
-        timer = null;
-      }, 500);
-    }, { passive: true });
+    el.addEventListener(
+      "touchstart",
+      (e) => {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+        timer = setTimeout(() => {
+          callback(e.touches[0]);
+          timer = null;
+        }, 500);
+      },
+      { passive: true },
+    );
 
-    el.addEventListener('touchmove', (e) => {
-      const dx = Math.abs(e.touches[0].clientX - startX);
-      const dy = Math.abs(e.touches[0].clientY - startY);
-      if (dx > 8 || dy > 8) {
-        clearTimeout(timer);
-        timer = null;
-      }
-    }, { passive: true });
+    el.addEventListener(
+      "touchmove",
+      (e) => {
+        const dx = Math.abs(e.touches[0].clientX - startX);
+        const dy = Math.abs(e.touches[0].clientY - startY);
+        if (dx > 8 || dy > 8) {
+          clearTimeout(timer);
+          timer = null;
+        }
+      },
+      { passive: true },
+    );
 
-    el.addEventListener('touchend', () => {
+    el.addEventListener("touchend", () => {
       clearTimeout(timer);
     });
   }
@@ -186,10 +196,13 @@ const Icons = (() => {
   function fetchFaviconSrc(siteUrl) {
     return new Promise((resolve, reject) => {
       const src = faviconUrl(siteUrl);
-      if (!src) { reject(new Error('Invalid URL')); return; }
+      if (!src) {
+        reject(new Error("Invalid URL"));
+        return;
+      }
       const img = new Image();
       img.onload = () => resolve(src);
-      img.onerror = () => reject(new Error('Favicon not found'));
+      img.onerror = () => reject(new Error("Favicon not found"));
       img.src = src;
     });
   }

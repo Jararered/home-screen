@@ -1,219 +1,318 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home Screen</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body class="theme-android">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Screen</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="theme-android">
+    <!-- Wallpaper layer -->
+    <div id="wallpaper"></div>
 
-  <!-- Wallpaper layer -->
-  <div id="wallpaper"></div>
+    <!-- Main container -->
+    <div id="app">
+      <!-- Search bar -->
+      <div id="search-bar-container">
+        <!-- Android: Google Search widget -->
+        <form id="android-search-form" class="android-only">
+          <div id="android-search-widget">
+            <!-- Google G logo -->
+            <svg
+              id="android-search-logo"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                fill="#4285F4"
+              />
+              <path
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                fill="#34A853"
+              />
+              <path
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                fill="#FBBC05"
+              />
+              <path
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                fill="#EA4335"
+              />
+            </svg>
+            <input
+              type="text"
+              id="android-search-input"
+              placeholder="Search"
+              autocomplete="off"
+            />
+            <!-- Mic icon -->
+            <svg
+              id="android-search-mic"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"
+              />
+              <path
+                d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"
+              />
+            </svg>
+          </div>
+        </form>
 
-  <!-- Main container -->
-  <div id="app">
-
-    <!-- Search bar -->
-    <div id="search-bar-container">
-      <!-- Android: Google Search widget -->
-      <form id="android-search-form" class="android-only">
-        <div id="android-search-widget">
-          <!-- Google G logo -->
-          <svg id="android-search-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-          </svg>
-          <input type="text" id="android-search-input" placeholder="Search" autocomplete="off" />
-          <!-- Mic icon -->
-          <svg id="android-search-mic" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
-            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
-          </svg>
-        </div>
-      </form>
-
-      <!-- iOS / generic search bar -->
-      <form id="search-form" class="non-android-only">
-        <div id="search-bar">
-          <svg id="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"/>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-          <input type="text" id="search-input" placeholder="Search..." autocomplete="off" />
-        </div>
-      </form>
-    </div>
-
-    <!-- Icon grid -->
-    <div id="grid-container">
-      <div id="icon-grid"></div>
-    </div>
-
-    <!-- Dock -->
-    <div id="dock-container">
-      <div id="dock"></div>
-    </div>
-
-  </div>
-
-  <!-- Context menu -->
-  <div id="context-menu" class="hidden">
-    <ul id="context-menu-list"></ul>
-  </div>
-
-  <!-- Icon edit modal -->
-  <div id="modal-overlay" class="hidden">
-    <div id="modal">
-      <h2 id="modal-title">Add Icon</h2>
-
-      <label>Name
-        <input type="text" id="modal-name" placeholder="My App" />
-      </label>
-
-      <label>URL
-        <input type="url" id="modal-url" placeholder="https://example.com" />
-      </label>
-
-      <label>Icon URL <span class="hint">(leave blank to auto-fetch favicon)</span>
-        <input type="url" id="modal-icon" placeholder="https://example.com/icon.png" />
-      </label>
-
-      <div id="modal-icon-preview-row">
-        <div id="modal-icon-preview"></div>
-        <button type="button" id="modal-fetch-favicon">Fetch favicon</button>
+        <!-- iOS / generic search bar -->
+        <form id="search-form" class="non-android-only">
+          <div id="search-bar">
+            <svg
+              id="search-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Search..."
+              autocomplete="off"
+            />
+          </div>
+        </form>
       </div>
 
-      <label id="modal-dock-label">
-        <input type="checkbox" id="modal-dock" />
-        Pin to dock
-      </label>
+      <!-- Icon grid -->
+      <div id="grid-container">
+        <div id="icon-grid"></div>
+      </div>
 
-      <div id="modal-actions">
-        <button type="button" id="modal-cancel">Cancel</button>
-        <button type="button" id="modal-delete" class="danger hidden">Delete</button>
-        <button type="button" id="modal-save">Save</button>
+      <!-- Dock -->
+      <div id="dock-container">
+        <div id="dock"></div>
       </div>
     </div>
-  </div>
 
-  <!-- Settings modal -->
-  <div id="settings-overlay" class="hidden">
-    <div id="settings-modal">
-      <h2>Settings</h2>
+    <!-- Context menu -->
+    <div id="context-menu" class="hidden">
+      <ul id="context-menu-list"></ul>
+    </div>
 
-      <section>
-        <h3>Theme</h3>
-        <div id="theme-toggle-group">
-          <button class="theme-btn active" data-theme="android">Android</button>
-          <button class="theme-btn" data-theme="ios">iOS</button>
+    <!-- Icon edit modal -->
+    <div id="modal-overlay" class="hidden">
+      <div id="modal">
+        <h2 id="modal-title">Add Icon</h2>
+
+        <label
+          >Name
+          <input type="text" id="modal-name" placeholder="My App" />
+        </label>
+
+        <label
+          >URL
+          <input type="url" id="modal-url" placeholder="https://example.com" />
+        </label>
+
+        <label
+          >Icon URL
+          <span class="hint">(leave blank to auto-fetch favicon)</span>
+          <input
+            type="url"
+            id="modal-icon"
+            placeholder="https://example.com/icon.png"
+          />
+        </label>
+
+        <div id="modal-icon-preview-row">
+          <div id="modal-icon-preview"></div>
+          <button type="button" id="modal-fetch-favicon">Fetch favicon</button>
         </div>
-      </section>
 
-      <section>
-        <h3>Icon Background</h3>
-        <div id="icon-bg-toggle-group">
-          <button class="icon-bg-btn" data-mode="light">Light</button>
-          <button class="icon-bg-btn" data-mode="dark">Dark</button>
-          <button class="icon-bg-btn active" data-mode="auto">Auto</button>
-        </div>
-      </section>
+        <label id="modal-dock-label">
+          <input type="checkbox" id="modal-dock" />
+          Pin to dock
+        </label>
 
-      <section>
-        <h3>Background</h3>
-        <div class="setting-row">
-          <label>Wallpaper URL
-            <input type="url" id="settings-wallpaper-url" placeholder="https://..." />
-          </label>
-          <button type="button" id="settings-apply-wallpaper">Apply</button>
+        <div id="modal-actions">
+          <button type="button" id="modal-cancel">Cancel</button>
+          <button type="button" id="modal-delete" class="danger hidden">
+            Delete
+          </button>
+          <button type="button" id="modal-save">Save</button>
         </div>
-        <div class="setting-row">
-          <label>Background color
-            <input type="color" id="settings-bg-color" value="#1a1a2e" />
-          </label>
-          <button type="button" id="settings-apply-color">Apply</button>
-        </div>
-        <button type="button" id="settings-clear-wallpaper">Clear wallpaper (use color)</button>
-      </section>
+      </div>
+    </div>
 
-      <section>
-        <h3>Search Engine</h3>
-        <select id="settings-search-engine">
-          <option value="https://www.google.com/search?q=">Google</option>
-          <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
-          <option value="https://search.brave.com/search?q=">Brave</option>
-          <option value="https://www.bing.com/search?q=">Bing</option>
-        </select>
-      </section>
+    <!-- Settings modal -->
+    <div id="settings-overlay" class="hidden">
+      <div id="settings-modal">
+        <h2>Settings</h2>
 
-      <section>
-        <h3>Grid</h3>
-        <div class="setting-row">
-          <label>Columns
-            <input type="number" id="settings-columns" min="3" max="10" value="5" />
-          </label>
-        </div>
-      </section>
+        <section>
+          <h3>Theme</h3>
+          <div id="theme-toggle-group">
+            <button class="theme-btn active" data-theme="android">
+              Android
+            </button>
+            <button class="theme-btn" data-theme="ios">iOS</button>
+          </div>
+        </section>
 
-      <section>
-        <h3>Icon Style</h3>
-        <div id="icon-preset-toggle-group">
-          <button class="icon-preset-btn" data-preset="android">Android</button>
-          <button class="icon-preset-btn" data-preset="ios">iOS</button>
-          <button class="icon-preset-btn" data-preset="squircle">Squircle</button>
-          <button class="icon-preset-btn" data-preset="custom">Custom</button>
-        </div>
-        <div id="icon-custom-settings" class="hidden">
+        <section>
+          <h3>Icon Background</h3>
+          <div id="icon-bg-toggle-group">
+            <button class="icon-bg-btn" data-mode="light">Light</button>
+            <button class="icon-bg-btn" data-mode="dark">Dark</button>
+            <button class="icon-bg-btn active" data-mode="auto">Auto</button>
+          </div>
+        </section>
+
+        <section>
+          <h3>Background</h3>
           <div class="setting-row">
-            <label>Icon radius <span id="icon-radius-value">22%</span>
-              <input type="range" id="settings-icon-radius" min="0" max="50" value="22" />
+            <label
+              >Wallpaper URL
+              <input
+                type="url"
+                id="settings-wallpaper-url"
+                placeholder="https://..."
+              />
             </label>
+            <button type="button" id="settings-apply-wallpaper">Apply</button>
           </div>
           <div class="setting-row">
-            <label>Image size <span id="icon-image-size-value">80%</span>
-              <input type="range" id="settings-icon-image-size" min="30" max="100" value="80" />
+            <label
+              >Background color
+              <input type="color" id="settings-bg-color" value="#1a1a2e" />
+            </label>
+            <button type="button" id="settings-apply-color">Apply</button>
+          </div>
+          <button type="button" id="settings-clear-wallpaper">
+            Clear wallpaper (use color)
+          </button>
+        </section>
+
+        <section>
+          <h3>Search Engine</h3>
+          <select id="settings-search-engine">
+            <option value="https://www.google.com/search?q=">Google</option>
+            <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+            <option value="https://search.brave.com/search?q=">Brave</option>
+            <option value="https://www.bing.com/search?q=">Bing</option>
+          </select>
+        </section>
+
+        <section>
+          <h3>Grid</h3>
+          <div class="setting-row">
+            <label
+              >Columns
+              <input
+                type="number"
+                id="settings-columns"
+                min="3"
+                max="10"
+                value="5"
+              />
             </label>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section>
-        <h3>Search Bar</h3>
-        <div id="search-bar-preset-toggle-group">
-          <button class="search-bar-preset-btn" data-preset="google">Google</button>
-          <button class="search-bar-preset-btn" data-preset="minimal">Minimal</button>
-        </div>
-      </section>
+        <section>
+          <h3>Icon Style</h3>
+          <div id="icon-preset-toggle-group">
+            <button class="icon-preset-btn" data-preset="android">
+              Android
+            </button>
+            <button class="icon-preset-btn" data-preset="ios">iOS</button>
+            <button class="icon-preset-btn" data-preset="squircle">
+              Squircle
+            </button>
+            <button class="icon-preset-btn" data-preset="custom">Custom</button>
+          </div>
+          <div id="icon-custom-settings" class="hidden">
+            <div class="setting-row">
+              <label
+                >Icon radius <span id="icon-radius-value">22%</span>
+                <input
+                  type="range"
+                  id="settings-icon-radius"
+                  min="0"
+                  max="50"
+                  value="22"
+                />
+              </label>
+            </div>
+            <div class="setting-row">
+              <label
+                >Image size <span id="icon-image-size-value">80%</span>
+                <input
+                  type="range"
+                  id="settings-icon-image-size"
+                  min="30"
+                  max="100"
+                  value="80"
+                />
+              </label>
+            </div>
+          </div>
+        </section>
 
-      <section>
-        <h3>Data</h3>
-        <div id="data-buttons">
-          <button type="button" id="settings-export">Export JSON</button>
-          <button type="button" id="settings-import-btn">Import JSON</button>
-          <input type="file" id="settings-import-file" accept=".json" class="hidden" />
-        </div>
-      </section>
+        <section>
+          <h3>Search Bar</h3>
+          <div id="search-bar-preset-toggle-group">
+            <button class="search-bar-preset-btn" data-preset="google">
+              Google
+            </button>
+            <button class="search-bar-preset-btn" data-preset="minimal">
+              Minimal
+            </button>
+          </div>
+        </section>
 
-      <div id="settings-actions">
-        <button type="button" id="settings-close">Close</button>
+        <section>
+          <h3>Data</h3>
+          <div id="data-buttons">
+            <button type="button" id="settings-export">Export JSON</button>
+            <button type="button" id="settings-import-btn">Import JSON</button>
+            <input
+              type="file"
+              id="settings-import-file"
+              accept=".json"
+              class="hidden"
+            />
+          </div>
+        </section>
+
+        <div id="settings-actions">
+          <button type="button" id="settings-close">Close</button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Settings trigger (gear icon) -->
-  <button id="settings-btn" title="Settings" aria-label="Settings">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <circle cx="12" cy="12" r="3"/>
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-    </svg>
-  </button>
+    <!-- Settings trigger (gear icon) -->
+    <button id="settings-btn" title="Settings" aria-label="Settings">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="3" />
+        <path
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+        />
+      </svg>
+    </button>
 
-  <script src="storage.js"></script>
-  <script src="theme.js"></script>
-  <script src="icons.js"></script>
-  <script src="contextmenu.js"></script>
-  <script src="app.js"></script>
-</body>
+    <script src="storage.js"></script>
+    <script src="theme.js"></script>
+    <script src="icons.js"></script>
+    <script src="contextmenu.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>
