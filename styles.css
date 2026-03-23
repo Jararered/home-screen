@@ -12,7 +12,7 @@
   --grid-cols: 5;
   --icon-size: 68px;
   --icon-gap: 20px;
-  --label-font-size: 11px;
+  --label-font-size: 13px;
   --label-font: "Roboto", "Google Sans", sans-serif;
   --dock-height: 90px;
   --search-height: 52px;
@@ -365,12 +365,11 @@ body {
 .icon-label {
   font-family: var(--label-font);
   font-size: var(--label-font-size);
+  font-weight: 700;
   color: var(--label-color);
   text-shadow: var(--label-shadow);
   text-align: center;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  min-width: 100%;
   white-space: nowrap;
   line-height: 1.2;
 }
