@@ -16,6 +16,10 @@ const DEFAULT_SETTINGS = {
   searchEngine: 'https://www.google.com/search?q=',
   gridCols: 5,
   iconBgMode: 'auto',
+  iconPreset: 'android',
+  iconRadius: 22,
+  iconImageSize: 80,
+  searchBarPreset: 'google',
 };
 
 // ── Helpers ──────────────────────────────────────────────

@@ -21,7 +21,6 @@
   --shadow-color: rgba(0, 0, 0, 0.35);
 
   /* Android defaults */
-  --icon-radius: 22px;
   --icon-bg: rgba(255, 255, 255, 0.12);
   --icon-bg-hover: rgba(255, 255, 255, 0.22);
   --icon-shadow: 0 2px 8px var(--shadow-color);
@@ -43,28 +42,82 @@
   --accent: #4f8ef7;
   --danger: #e05252;
   --settings-btn-color: rgba(255,255,255,0.75);
+
+  /* Preset defaults (icon appearance) */
+  --icon-radius: 22px;
+  --icon-img-width: 80%;
+  --icon-img-height: 80%;
+  --icon-img-object-fit: contain;
+
+  /* Preset defaults (search bar) */
+  --search-bar-style: 'google';
 }
 
 /* =========================================================
-   Android Theme Overrides
+   Preset-based Icon Appearance
    ========================================================= */
 
-.theme-android {
-  --icon-radius: 50%;
-}
-
-/* =========================================================
-   iOS Theme Overrides
-   ========================================================= */
-
-.theme-ios {
+/* Rounded square (iOS-style) */
+.preset-ios-icons {
   --icon-radius: 18px;
+  --icon-img-width: 100%;
+  --icon-img-height: 100%;
+  --icon-img-object-fit: cover;
+}
+
+/* Circle (Android-style) */
+.preset-android-icons {
+  --icon-radius: 50%;
+  --icon-img-width: 80%;
+  --icon-img-height: 80%;
+  --icon-img-object-fit: contain;
+}
+
+/* Squircle (Android 12+ style) - configurable via --icon-radius */
+.preset-squircle-icons {
+  --icon-radius: 28px;
+  --icon-img-width: 75%;
+  --icon-img-height: 75%;
+  --icon-img-object-fit: contain;
+}
+
+/* =========================================================
+   Preset-based Search Bar Style
+   ========================================================= */
+
+/* Google-style search bar (Android-style) */
+.search-preset-google #android-search-form {
+  display: block;
+}
+.search-preset-google #search-form {
+  display: none;
+}
+
+/* Minimal search bar (iOS-style) */
+.search-preset-minimal #android-search-form {
+  display: none;
+}
+.search-preset-minimal #search-form {
+  display: block;
+}
+
+/* iOS visual preset (frosted glass dock, rounded search) */
+.preset-ios {
   --dock-radius: 26px;
-  --search-radius: 14px;
   --dock-bg: rgba(255, 255, 255, 0.25);
   --dock-blur: blur(30px);
   --search-bg: rgba(255, 255, 255, 0.22);
+  --search-radius: 14px;
   --label-font: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+
+/* Android visual preset defaults (already in :root) */
+.preset-android {
+  --dock-radius: 28px;
+  --dock-bg: rgba(255, 255, 255, 0.15);
+  --dock-blur: blur(20px);
+  --search-bg: rgba(255, 255, 255, 0.2);
+  --search-radius: 26px;
 }
 
 /* =========================================================
@@ -197,21 +250,28 @@ html, body {
   color: var(--search-placeholder);
 }
 
-/* Theme-based search bar visibility */
-.android-only {
-  display: none;
-}
-
-.non-android-only {
-  display: block;
-}
-
+/* Theme-based search bar visibility (legacy, for theme switching) */
 .theme-android .android-only {
   display: block;
 }
 
 .theme-android .non-android-only {
   display: none;
+}
+
+/* Preset-based search bar visibility - overrides theme-based when present */
+.search-preset-google #android-search-form {
+  display: block !important;
+}
+.search-preset-google #search-form {
+  display: none !important;
+}
+
+.search-preset-minimal #android-search-form {
+  display: none !important;
+}
+.search-preset-minimal #search-form {
+  display: block !important;
 }
 
 /* Android Google Search Widget */
@@ -307,7 +367,8 @@ html, body {
   padding: 8px 24px 24px;
 }
 
-.theme-android #dock {
+/* Android dock: no frosted glass */
+.preset-android #dock {
   background: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -379,28 +440,10 @@ html, body {
 }
 
 .icon-img-wrap img {
-  width: 60%;
-  height: 60%;
-  object-fit: contain;
+  width: var(--icon-img-width);
+  height: var(--icon-img-height);
+  object-fit: var(--icon-img-object-fit);
   pointer-events: none;
-}
-
-/* iOS icons: image fills the rounded square entirely */
-.theme-ios .icon-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Android circle icon style: image is ~80% of the circle with visible background margin */
-.theme-android .icon-img-wrap {
-  background: var(--icon-bg);
-}
-
-.theme-android .icon-img-wrap img {
-  width: 80%;
-  height: 80%;
-  object-fit: contain;
 }
 
 .icon-label {
@@ -810,7 +853,9 @@ button.danger:hover,
 
 /* Theme toggle buttons */
 .theme-btn,
-.icon-bg-btn {
+.icon-bg-btn,
+.icon-preset-btn,
+.search-bar-preset-btn {
   background: rgba(255,255,255,0.08);
   color: rgba(255,255,255,0.6);
   flex: 1;
@@ -818,14 +863,58 @@ button.danger:hover,
 }
 
 .theme-btn.active,
-.icon-bg-btn.active {
+.icon-bg-btn.active,
+.icon-preset-btn.active,
+.search-bar-preset-btn.active {
   background: var(--accent);
   color: #fff;
 }
 
 .theme-btn:hover:not(.active),
-.icon-bg-btn:hover:not(.active) {
+.icon-bg-btn:hover:not(.active),
+.icon-preset-btn:hover:not(.active),
+.search-bar-preset-btn:hover:not(.active) {
   background: rgba(255,255,255,0.15);
+}
+
+#icon-custom-settings {
+  margin-top: 12px;
+  padding: 12px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+}
+
+#icon-custom-settings .setting-row {
+  margin-bottom: 8px;
+}
+
+#icon-custom-settings .setting-row:last-child {
+  margin-bottom: 0;
+}
+
+#icon-custom-settings label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+}
+
+#icon-custom-settings input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+}
+
+#icon-radius-value,
+#icon-image-size-value {
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+}
+
+#icon-preset-toggle-group,
+#search-bar-preset-toggle-group {
+  display: flex;
+  gap: 8px;
 }
 
 /* Settings gear button */

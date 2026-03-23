@@ -158,6 +158,36 @@
       </section>
 
       <section>
+        <h3>Icon Style</h3>
+        <div id="icon-preset-toggle-group">
+          <button class="icon-preset-btn" data-preset="android">Android</button>
+          <button class="icon-preset-btn" data-preset="ios">iOS</button>
+          <button class="icon-preset-btn" data-preset="squircle">Squircle</button>
+          <button class="icon-preset-btn" data-preset="custom">Custom</button>
+        </div>
+        <div id="icon-custom-settings" class="hidden">
+          <div class="setting-row">
+            <label>Icon radius <span id="icon-radius-value">22%</span>
+              <input type="range" id="settings-icon-radius" min="0" max="50" value="22" />
+            </label>
+          </div>
+          <div class="setting-row">
+            <label>Image size <span id="icon-image-size-value">80%</span>
+              <input type="range" id="settings-icon-image-size" min="30" max="100" value="80" />
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h3>Search Bar</h3>
+        <div id="search-bar-preset-toggle-group">
+          <button class="search-bar-preset-btn" data-preset="google">Google</button>
+          <button class="search-bar-preset-btn" data-preset="minimal">Minimal</button>
+        </div>
+      </section>
+
+      <section>
         <h3>Data</h3>
         <div id="data-buttons">
           <button type="button" id="settings-export">Export JSON</button>

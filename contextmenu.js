@@ -219,21 +219,28 @@ const ContextMenu = (() => {
   // ── Settings modal ────────────────────────────────────────
 
   const SettingsModal = (() => {
-    const overlay        = document.getElementById('settings-overlay');
-    const closeBtn       = document.getElementById('settings-close');
-    const themeBtns      = document.querySelectorAll('.theme-btn');
-    const iconBgBtns     = document.querySelectorAll('.icon-bg-btn');
-    const wallpaperInput = document.getElementById('settings-wallpaper-url');
-    const applyWallBtn   = document.getElementById('settings-apply-wallpaper');
-    const bgColorInput   = document.getElementById('settings-bg-color');
-    const applyColorBtn  = document.getElementById('settings-apply-color');
-    const clearWallBtn   = document.getElementById('settings-clear-wallpaper');
-    const searchSel      = document.getElementById('settings-search-engine');
-    const colsInput      = document.getElementById('settings-columns');
-    const exportBtn      = document.getElementById('settings-export');
-    const importBtn      = document.getElementById('settings-import-btn');
-    const importFile     = document.getElementById('settings-import-file');
-    const settingsGear   = document.getElementById('settings-btn');
+    const overlay           = document.getElementById('settings-overlay');
+    const closeBtn          = document.getElementById('settings-close');
+    const themeBtns         = document.querySelectorAll('.theme-btn');
+    const iconBgBtns        = document.querySelectorAll('.icon-bg-btn');
+    const iconPresetBtns    = document.querySelectorAll('.icon-preset-btn');
+    const searchBarPresetBtns = document.querySelectorAll('.search-bar-preset-btn');
+    const wallpaperInput    = document.getElementById('settings-wallpaper-url');
+    const applyWallBtn      = document.getElementById('settings-apply-wallpaper');
+    const bgColorInput      = document.getElementById('settings-bg-color');
+    const applyColorBtn     = document.getElementById('settings-apply-color');
+    const clearWallBtn      = document.getElementById('settings-clear-wallpaper');
+    const searchSel         = document.getElementById('settings-search-engine');
+    const colsInput         = document.getElementById('settings-columns');
+    const exportBtn         = document.getElementById('settings-export');
+    const importBtn         = document.getElementById('settings-import-btn');
+    const importFile        = document.getElementById('settings-import-file');
+    const settingsGear      = document.getElementById('settings-btn');
+    const customIconSettings = document.getElementById('icon-custom-settings');
+    const iconRadiusInput   = document.getElementById('settings-icon-radius');
+    const iconImageSizeInput = document.getElementById('settings-icon-image-size');
+    const iconRadiusValue   = document.getElementById('icon-radius-value');
+    const iconImageSizeValue = document.getElementById('icon-image-size-value');
 
     settingsGear.addEventListener('click', () => open());
 
@@ -244,6 +251,7 @@ const ContextMenu = (() => {
       btn.addEventListener('click', () => {
         const theme = btn.dataset.theme;
         Theme.applyTheme(theme);
+        Theme.applyVisualPreset(theme);
         App.updateSetting('theme', theme);
       });
     });
@@ -254,6 +262,45 @@ const ContextMenu = (() => {
         Theme.applyIconBgMode(mode);
         App.updateSetting('iconBgMode', mode);
       });
+    });
+
+    iconPresetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const preset = btn.dataset.preset;
+        Theme.applyIconPreset(preset, parseInt(iconRadiusInput.value, 10), parseInt(iconImageSizeInput.value, 10));
+        App.updateSetting('iconPreset', preset);
+        customIconSettings.classList.toggle('hidden', preset !== 'custom');
+      });
+    });
+
+    searchBarPresetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const preset = btn.dataset.preset;
+        Theme.applySearchBarPreset(preset);
+        App.updateSetting('searchBarPreset', preset);
+      });
+    });
+
+    iconRadiusInput.addEventListener('input', () => {
+      const val = parseInt(iconRadiusInput.value, 10);
+      iconRadiusValue.textContent = val + '%';
+      Theme.applyIconPreset('custom', val, parseInt(iconImageSizeInput.value, 10));
+    });
+
+    iconRadiusInput.addEventListener('change', () => {
+      const val = parseInt(iconRadiusInput.value, 10);
+      App.updateSetting('iconRadius', val);
+    });
+
+    iconImageSizeInput.addEventListener('input', () => {
+      const val = parseInt(iconImageSizeInput.value, 10);
+      iconImageSizeValue.textContent = val + '%';
+      Theme.applyIconPreset('custom', parseInt(iconRadiusInput.value, 10), val);
+    });
+
+    iconImageSizeInput.addEventListener('change', () => {
+      const val = parseInt(iconImageSizeInput.value, 10);
+      App.updateSetting('iconImageSize', val);
     });
 
     applyWallBtn.addEventListener('click', () => {
@@ -306,18 +353,31 @@ const ContextMenu = (() => {
       wallpaperInput.value = s.wallpaperUrl || '';
       bgColorInput.value   = s.bgColor || '#1a1a2e';
       colsInput.value      = s.gridCols || 5;
+      iconRadiusInput.value = s.iconRadius || 22;
+      iconImageSizeInput.value = s.iconImageSize || 80;
+      iconRadiusValue.textContent = (s.iconRadius || 22) + '%';
+      iconImageSizeValue.textContent = (s.iconImageSize || 80) + '%';
 
-      // Sync search engine select
       let matched = false;
       for (const opt of searchSel.options) {
         if (opt.value === s.searchEngine) { opt.selected = true; matched = true; }
       }
       if (!matched) searchSel.selectedIndex = 0;
 
-      // Sync icon background mode buttons
       const currentMode = s.iconBgMode || 'auto';
       iconBgBtns.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.mode === currentMode);
+      });
+
+      const currentIconPreset = s.iconPreset || 'android';
+      iconPresetBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.preset === currentIconPreset);
+      });
+      customIconSettings.classList.toggle('hidden', currentIconPreset !== 'custom');
+
+      const currentSearchBarPreset = s.searchBarPreset || 'google';
+      searchBarPresetBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.preset === currentSearchBarPreset);
       });
 
       overlay.classList.remove('hidden');
