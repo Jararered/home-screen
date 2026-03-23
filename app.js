@@ -1,34 +1,111 @@
-/**
- * app.js
- * Core application controller. Bootstraps everything, manages state,
- * and exposes the global App API used by other modules.
- */
+// === Storage ===
+
+const STORAGE_KEYS = {
+  ICONS: "hs_icons",
+  SETTINGS: "hs_settings",
+};
+
+const DEFAULT_SETTINGS = {
+  theme: "android",
+  wallpaperUrl: "",
+  bgColor: "#1a1a2e",
+  searchEngine: "https://www.google.com/search?q=",
+  gridCols: 5,
+  iconBgMode: "auto",
+  iconPreset: "android",
+  iconRadius: 22,
+  iconImageSize: 80,
+  searchBarPreset: "google",
+};
+
+function safeRead(key, fallback) {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw !== null ? JSON.parse(raw) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function safeWrite(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (e) {
+    console.error("Storage write failed", key, e);
+  }
+}
+
+function loadIcons() {
+  return safeRead(STORAGE_KEYS.ICONS, []);
+}
+
+function saveIcons(icons) {
+  safeWrite(STORAGE_KEYS.ICONS, icons);
+}
+
+function loadSettings() {
+  return Object.assign({}, DEFAULT_SETTINGS, safeRead(STORAGE_KEYS.SETTINGS, {}));
+}
+
+function saveSettings(settings) {
+  safeWrite(STORAGE_KEYS.SETTINGS, settings);
+}
+
+function exportData() {
+  const data = {
+    version: 1,
+    exported: new Date().toISOString(),
+    icons: loadIcons(),
+    settings: loadSettings(),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "home-screen-backup.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importData(file, onSuccess, onError) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!Array.isArray(data.icons)) throw new Error("Invalid backup format");
+      saveIcons(data.icons);
+      if (data.settings) saveSettings(data.settings);
+      onSuccess(data);
+    } catch (err) {
+      onError(err);
+    }
+  };
+  reader.onerror = () => onError(new Error("File read error"));
+  reader.readAsText(file);
+}
+
+function generateId() {
+  return `icon_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+}
+
+// === App ===
 
 const App = (() => {
-  let icons = []; // All icons (grid + dock)
+  let icons = [];
   let settings = {};
 
   const grid = document.getElementById("icon-grid");
   const dock = document.getElementById("dock");
 
-  // ── Boot ─────────────────────────────────────────────────
-
   function init() {
     icons = loadIcons();
     settings = loadSettings();
 
-    // Apply theme / background
     Theme.init(settings);
-
-    // Wire up search form
     applySearchEngine(settings.searchEngine);
-
-    // Render
     render();
 
-    // Right-click on background → context menu
     document.getElementById("app").addEventListener("contextmenu", (e) => {
-      // Only fire if not on an icon (icons handle their own contextmenu)
       if (!e.target.closest(".icon-wrapper")) {
         e.preventDefault();
         const inDock = !!e.target.closest("#dock");
@@ -36,67 +113,49 @@ const App = (() => {
       }
     });
 
-    // Drag-drop: allow drop on grid/dock backgrounds
     [grid, dock].forEach((container) => {
       container.addEventListener("dragover", (e) => {
         e.preventDefault();
         e.dataTransfer.dropEffect = "move";
-        // When dragging over the container's empty area (not over an icon),
-        // move the dragged icon to the end of this container so it follows the cursor.
         if (e.target === container) {
           const id = e.dataTransfer.getData("text/plain");
           const el = document.querySelector(`[data-id="${id}"]`);
-          if (el && el.parentNode !== container) {
-            container.appendChild(el);
-          }
+          if (el && el.parentNode !== container) container.appendChild(el);
         }
       });
       container.addEventListener("drop", (e) => {
         e.preventDefault();
-        // The live-move in dragover already placed the icon; just persist order.
         persistOrder();
       });
     });
   }
 
-  // ── Render ────────────────────────────────────────────────
-
   function render() {
     grid.innerHTML = "";
     dock.innerHTML = "";
 
-    const gridIcons = icons.filter((ic) => !ic.inDock);
-    const dockIcons = icons.filter((ic) => ic.inDock);
-
-    gridIcons.forEach((ic) => {
-      const el = Icons.createIconElement(ic, {
-        onContextMenu: (e, icon) =>
-          ContextMenu.showIconMenu(e.clientX, e.clientY, icon),
-      });
-      grid.appendChild(el);
+    icons.filter((ic) => !ic.inDock).forEach((ic) => {
+      grid.appendChild(Icons.createIconElement(ic, {
+        onContextMenu: (e, icon) => ContextMenu.showIconMenu(e.clientX, e.clientY, icon),
+      }));
     });
 
-    dockIcons.forEach((ic) => {
-      const el = Icons.createIconElement(ic, {
-        onContextMenu: (e, icon) =>
-          ContextMenu.showIconMenu(e.clientX, e.clientY, icon),
-      });
-      dock.appendChild(el);
+    icons.filter((ic) => ic.inDock).forEach((ic) => {
+      dock.appendChild(Icons.createIconElement(ic, {
+        onContextMenu: (e, icon) => ContextMenu.showIconMenu(e.clientX, e.clientY, icon),
+      }));
     });
   }
 
-  // ── CRUD ──────────────────────────────────────────────────
-
   function addIcon(data) {
-    const icon = {
+    icons.push({
       id: generateId(),
       name: data.name,
       url: data.url,
       iconUrl: data.iconUrl || "",
       inDock: !!data.inDock,
-    };
-    icons.push(icon);
-    save();
+    });
+    saveIcons(icons);
     render();
   }
 
@@ -109,13 +168,13 @@ const App = (() => {
       iconUrl: data.iconUrl || "",
       inDock: !!data.inDock,
     });
-    save();
+    saveIcons(icons);
     render();
   }
 
   function deleteIcon(id) {
     icons = icons.filter((ic) => ic.id !== id);
-    save();
+    saveIcons(icons);
     render();
   }
 
@@ -123,35 +182,23 @@ const App = (() => {
     const icon = icons.find((ic) => ic.id === id);
     if (!icon) return;
     icon.inDock = !icon.inDock;
-    save();
+    saveIcons(icons);
     render();
   }
 
-  // ── Order persistence (after drag-drop) ──────────────────
-
-  /**
-   * Read DOM order from grid and dock, then reorder `icons` array to match.
-   */
   function persistOrder() {
     const newOrder = [];
-
-    // Grid (exclude add button)
     grid.querySelectorAll(".icon-wrapper[data-id]").forEach((el) => {
       const ic = icons.find((i) => i.id === el.dataset.id);
       if (ic) newOrder.push(Object.assign({}, ic, { inDock: false }));
     });
-
-    // Dock
     dock.querySelectorAll(".icon-wrapper[data-id]").forEach((el) => {
       const ic = icons.find((i) => i.id === el.dataset.id);
       if (ic) newOrder.push(Object.assign({}, ic, { inDock: true }));
     });
-
     icons = newOrder;
-    save();
+    saveIcons(icons);
   }
-
-  // ── Settings ──────────────────────────────────────────────
 
   function getSettings() {
     return Object.assign({}, settings);
@@ -164,18 +211,12 @@ const App = (() => {
 
   function applySearchEngine(engineUrl) {
     if (!engineUrl) return;
-    // engineUrl is stored as "https://example.com/search?q=" — a prefix.
-    // We intercept submit on both forms and redirect.
 
     function attachHandler(formId, inputId) {
       const form = document.getElementById(formId);
       const input = document.getElementById(inputId);
       if (!form || !input) return;
-
-      if (form._searchHandler) {
-        form.removeEventListener("submit", form._searchHandler);
-      }
-
+      if (form._searchHandler) form.removeEventListener("submit", form._searchHandler);
       form._searchHandler = (e) => {
         e.preventDefault();
         const q = encodeURIComponent(input.value.trim());
@@ -184,15 +225,12 @@ const App = (() => {
         input.value = "";
         input.blur();
       };
-
       form.addEventListener("submit", form._searchHandler);
     }
 
     attachHandler("search-form", "search-input");
     attachHandler("android-search-form", "android-search-input");
   }
-
-  // ── Reload (after import) ─────────────────────────────────
 
   function reload() {
     icons = loadIcons();
@@ -202,25 +240,7 @@ const App = (() => {
     render();
   }
 
-  // ── Persist ───────────────────────────────────────────────
-
-  function save() {
-    saveIcons(icons);
-  }
-
-  // ── Init ──────────────────────────────────────────────────
-
   init();
 
-  return {
-    addIcon,
-    updateIcon,
-    deleteIcon,
-    toggleDock,
-    persistOrder,
-    getSettings,
-    updateSetting,
-    applySearchEngine,
-    reload,
-  };
+  return { addIcon, updateIcon, deleteIcon, toggleDock, persistOrder, getSettings, updateSetting, applySearchEngine, reload };
 })();

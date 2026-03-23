@@ -1,6 +1,4 @@
-/* =========================================================
-   CSS Custom Properties & Reset
-   ========================================================= */
+/* === Custom Properties & Reset === */
 
 *,
 *::before,
@@ -11,7 +9,6 @@
 }
 
 :root {
-  /* Shared */
   --grid-cols: 5;
   --icon-size: 68px;
   --icon-gap: 20px;
@@ -22,7 +19,6 @@
   --transition: 0.2s ease;
   --shadow-color: rgba(0, 0, 0, 0.35);
 
-  /* Android defaults */
   --icon-bg: rgba(255, 255, 255, 0.12);
   --icon-bg-hover: rgba(255, 255, 255, 0.22);
   --icon-shadow: 0 2px 8px var(--shadow-color);
@@ -45,21 +41,14 @@
   --danger: #e05252;
   --settings-btn-color: rgba(255, 255, 255, 0.75);
 
-  /* Preset defaults (icon appearance) */
   --icon-radius: 22px;
   --icon-img-width: 80%;
   --icon-img-height: 80%;
   --icon-img-object-fit: contain;
-
-  /* Preset defaults (search bar) */
-  --search-bar-style: "google";
 }
 
-/* =========================================================
-   Preset-based Icon Appearance
-   ========================================================= */
+/* === Icon Shape Presets === */
 
-/* Rounded square (iOS-style) */
 .preset-ios-icons {
   --icon-radius: 18px;
   --icon-img-width: 100%;
@@ -67,7 +56,6 @@
   --icon-img-object-fit: cover;
 }
 
-/* Circle (Android-style) */
 .preset-android-icons {
   --icon-radius: 50%;
   --icon-img-width: 80%;
@@ -75,7 +63,6 @@
   --icon-img-object-fit: contain;
 }
 
-/* Squircle (Android 12+ style) - configurable via --icon-radius */
 .preset-squircle-icons {
   --icon-radius: 28px;
   --icon-img-width: 75%;
@@ -83,27 +70,15 @@
   --icon-img-object-fit: contain;
 }
 
-/* =========================================================
-   Preset-based Search Bar Style
-   ========================================================= */
+/* === Search Bar Presets === */
 
-/* Google-style search bar (Android-style) */
-.search-preset-google #android-search-form {
-  display: block;
-}
-.search-preset-google #search-form {
-  display: none;
-}
+.search-preset-google #android-search-form { display: block; }
+.search-preset-google #search-form { display: none; }
+.search-preset-minimal #android-search-form { display: none; }
+.search-preset-minimal #search-form { display: block; }
 
-/* Minimal search bar (iOS-style) */
-.search-preset-minimal #android-search-form {
-  display: none;
-}
-.search-preset-minimal #search-form {
-  display: block;
-}
+/* === Visual Theme Presets === */
 
-/* iOS visual preset (frosted glass dock, rounded search) */
 .preset-ios {
   --dock-radius: 26px;
   --dock-bg: rgba(255, 255, 255, 0.25);
@@ -113,36 +88,17 @@
   --label-font: -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif;
 }
 
-/* Android visual preset defaults (already in :root) */
-.preset-android {
-  --dock-radius: 28px;
-  --dock-bg: rgba(255, 255, 255, 0.15);
-  --dock-blur: blur(20px);
-  --search-bg: rgba(255, 255, 255, 0.2);
-  --search-radius: 26px;
-}
-
-/* =========================================================
-   Icon Background Mode — Dark (explicit)
-   ========================================================= */
+/* === Icon Background Modes === */
 
 .icon-bg-dark {
   --icon-bg: rgba(0, 0, 0, 0.45);
   --icon-bg-hover: rgba(0, 0, 0, 0.6);
 }
 
-/* =========================================================
-   Icon Background Mode — Light (explicit)
-   ========================================================= */
-
 .icon-bg-light {
   --icon-bg: rgba(255, 255, 255, 0.9);
   --icon-bg-hover: rgba(255, 255, 255, 1);
 }
-
-/* =========================================================
-   Icon Background Mode — Auto (follows system preference)
-   ========================================================= */
 
 @media (prefers-color-scheme: dark) {
   .icon-bg-auto {
@@ -158,17 +114,14 @@
   }
 }
 
-/* =========================================================
-   Body & Wallpaper
-   ========================================================= */
+/* === Body & Wallpaper === */
 
 html,
 body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   user-select: none;
 }
 
@@ -180,14 +133,10 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transition:
-    background-color 0.4s ease,
-    background-image 0.4s ease;
+  transition: background-color 0.4s ease, background-image 0.4s ease;
 }
 
-/* =========================================================
-   App Layout
-   ========================================================= */
+/* === App Layout === */
 
 #app {
   position: relative;
@@ -199,9 +148,7 @@ body {
   padding: 16px 0 0;
 }
 
-/* =========================================================
-   Search Bar
-   ========================================================= */
+/* === Search Bar === */
 
 #search-bar-container {
   flex-shrink: 0;
@@ -210,7 +157,8 @@ body {
   padding: 8px 24px 16px;
 }
 
-#search-form {
+#search-form,
+#android-search-form {
   width: 100%;
   max-width: 560px;
 }
@@ -226,9 +174,7 @@ body {
   padding: 0 18px;
   height: var(--search-height);
   border: 1px solid rgba(255, 255, 255, 0.15);
-  transition:
-    border-color var(--transition),
-    box-shadow var(--transition);
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 #search-bar:focus-within {
@@ -257,35 +203,7 @@ body {
   color: var(--search-placeholder);
 }
 
-/* Theme-based search bar visibility (legacy, for theme switching) */
-.theme-android .android-only {
-  display: block;
-}
-
-.theme-android .non-android-only {
-  display: none;
-}
-
-/* Preset-based search bar visibility - overrides theme-based when present */
-.search-preset-google #android-search-form {
-  display: block !important;
-}
-.search-preset-google #search-form {
-  display: none !important;
-}
-
-.search-preset-minimal #android-search-form {
-  display: none !important;
-}
-.search-preset-minimal #search-form {
-  display: block !important;
-}
-
 /* Android Google Search Widget */
-#android-search-form {
-  width: 100%;
-  max-width: 560px;
-}
 
 #android-search-widget {
   display: flex;
@@ -295,16 +213,12 @@ body {
   border-radius: 28px;
   padding: 0 16px 0 14px;
   height: var(--search-height);
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.25),
-    0 1px 3px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), 0 1px 3px rgba(0, 0, 0, 0.15);
   transition: box-shadow var(--transition);
 }
 
 #android-search-widget:focus-within {
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.3),
-    0 1px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 #android-search-logo {
@@ -321,8 +235,7 @@ body {
   font-size: 16px;
   color: #202124;
   caret-color: #4285f4;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 #android-search-input::placeholder {
@@ -343,9 +256,7 @@ body {
   opacity: 1;
 }
 
-/* =========================================================
-   Icon Grid
-   ========================================================= */
+/* === Icon Grid === */
 
 #grid-container {
   flex: 1;
@@ -368,23 +279,13 @@ body {
   justify-items: center;
 }
 
-/* =========================================================
-   Dock
-   ========================================================= */
+/* === Dock === */
 
 #dock-container {
   flex-shrink: 0;
   display: flex;
   justify-content: center;
   padding: 8px 24px 24px;
-}
-
-/* Android dock: no frosted glass */
-.preset-android #dock {
-  background: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border: none;
 }
 
 #dock {
@@ -402,6 +303,14 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
+/* Android dock: no frosted glass */
+.preset-android #dock {
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+}
+
 #dock:empty::after {
   content: "Right-click to add dock icons";
   color: rgba(255, 255, 255, 0.4);
@@ -409,9 +318,7 @@ body {
   pointer-events: none;
 }
 
-/* =========================================================
-   Icons (shared)
-   ========================================================= */
+/* === Icons === */
 
 .icon-wrapper {
   display: flex;
@@ -422,9 +329,7 @@ body {
   position: relative;
   width: var(--icon-size);
   -webkit-tap-highlight-color: transparent;
-  transition:
-    transform 0.18s ease,
-    opacity 0.18s ease;
+  transition: transform 0.18s ease, opacity 0.18s ease;
 }
 
 .icon-wrapper.dragging {
@@ -441,10 +346,7 @@ body {
   justify-content: center;
   overflow: hidden;
   box-shadow: var(--icon-shadow);
-  transition:
-    transform var(--transition),
-    background var(--transition);
-  position: relative;
+  transition: transform var(--transition), background var(--transition);
 }
 
 .icon-wrapper:hover .icon-img-wrap,
@@ -473,33 +375,11 @@ body {
   line-height: 1.2;
 }
 
-/* Dock icons: no label by default (configurable) */
 #dock .icon-label {
   display: none;
 }
 
-/* Icon edit badge (shown in edit mode) */
-.icon-edit-badge {
-  display: none;
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  width: 20px;
-  height: 20px;
-  background: #fff;
-  border-radius: 50%;
-  border: 1px solid #ccc;
-  font-size: 12px;
-  align-items: center;
-  justify-content: center;
-  color: #333;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
-  z-index: 2;
-}
-
-/* =========================================================
-   Context Menu
-   ========================================================= */
+/* === Context Menu === */
 
 #context-menu {
   position: fixed;
@@ -516,14 +396,8 @@ body {
 }
 
 @keyframes ctx-fade-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 #context-menu.hidden {
@@ -560,11 +434,10 @@ body {
   flex-shrink: 0;
 }
 
-/* =========================================================
-   Modal (Icon Edit)
-   ========================================================= */
+/* === Modals (shared) === */
 
-#modal-overlay {
+#modal-overlay,
+#settings-overlay {
   position: fixed;
   inset: 0;
   z-index: 900;
@@ -573,20 +446,20 @@ body {
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(4px);
+}
+
+#modal-overlay {
   animation: overlay-in 0.15s ease;
 }
 
-#modal-overlay.hidden {
+#modal-overlay.hidden,
+#settings-overlay.hidden {
   display: none;
 }
 
 @keyframes overlay-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 #modal {
@@ -603,14 +476,8 @@ body {
 }
 
 @keyframes modal-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 #modal h2 {
@@ -701,24 +568,7 @@ body {
   margin-top: 4px;
 }
 
-/* =========================================================
-   Settings Modal
-   ========================================================= */
-
-#settings-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 900;
-  background: rgba(0, 0, 0, 0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(4px);
-}
-
-#settings-overlay.hidden {
-  display: none;
-}
+/* === Settings Modal === */
 
 #settings-modal {
   background: var(--modal-bg);
@@ -732,6 +582,13 @@ body {
   flex-direction: column;
   gap: 20px;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+}
+
+#settings-modal::-webkit-scrollbar { width: 5px; }
+#settings-modal::-webkit-scrollbar-track { background: transparent; }
+#settings-modal::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
 }
 
 #settings-modal h2 {
@@ -799,7 +656,9 @@ body {
 }
 
 #theme-toggle-group,
-#icon-bg-toggle-group {
+#icon-bg-toggle-group,
+#icon-preset-toggle-group,
+#search-bar-preset-toggle-group {
   display: flex;
   gap: 8px;
 }
@@ -815,9 +674,36 @@ body {
   justify-content: flex-end;
 }
 
-/* =========================================================
-   Buttons
-   ========================================================= */
+#icon-custom-settings {
+  margin-top: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+#icon-custom-settings .setting-row { margin-bottom: 8px; }
+#icon-custom-settings .setting-row:last-child { margin-bottom: 0; }
+
+#icon-custom-settings label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#icon-custom-settings input[type="range"] {
+  width: 100%;
+  cursor: pointer;
+}
+
+#icon-radius-value,
+#icon-image-size-value {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+}
+
+/* === Buttons === */
 
 button {
   cursor: pointer;
@@ -826,9 +712,7 @@ button {
   font-family: inherit;
   border-radius: 10px;
   padding: 9px 18px;
-  transition:
-    background var(--transition),
-    opacity var(--transition);
+  transition: background var(--transition), opacity var(--transition);
 }
 
 button:active {
@@ -870,18 +754,16 @@ button:active {
 }
 
 /* Danger */
-button.danger,
 #modal-delete {
   background: rgba(224, 82, 82, 0.15);
   color: var(--danger);
 }
 
-button.danger:hover,
 #modal-delete:hover {
   background: rgba(224, 82, 82, 0.28);
 }
 
-/* Theme toggle buttons */
+/* Toggle buttons */
 .theme-btn,
 .icon-bg-btn,
 .icon-preset-btn,
@@ -905,46 +787,6 @@ button.danger:hover,
 .icon-preset-btn:hover:not(.active),
 .search-bar-preset-btn:hover:not(.active) {
   background: rgba(255, 255, 255, 0.15);
-}
-
-#icon-custom-settings {
-  margin-top: 12px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-}
-
-#icon-custom-settings .setting-row {
-  margin-bottom: 8px;
-}
-
-#icon-custom-settings .setting-row:last-child {
-  margin-bottom: 0;
-}
-
-#icon-custom-settings label {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-#icon-custom-settings input[type="range"] {
-  width: 100%;
-  cursor: pointer;
-}
-
-#icon-radius-value,
-#icon-image-size-value {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 12px;
-}
-
-#icon-preset-toggle-group,
-#search-bar-preset-toggle-group {
-  display: flex;
-  gap: 8px;
 }
 
 /* Settings gear button */
@@ -976,25 +818,8 @@ button.danger:hover,
   height: 100%;
 }
 
-/* =========================================================
-   Utility
-   ========================================================= */
+/* === Utility === */
 
 .hidden {
   display: none !important;
-}
-
-/* =========================================================
-   Scrollbar (for settings modal)
-   ========================================================= */
-
-#settings-modal::-webkit-scrollbar {
-  width: 5px;
-}
-#settings-modal::-webkit-scrollbar-track {
-  background: transparent;
-}
-#settings-modal::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
 }
