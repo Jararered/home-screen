@@ -19,8 +19,18 @@ const ContextMenu = (() => {
     items.forEach((item) => {
       const li = document.createElement("li");
       if (item.danger) li.classList.add("danger");
-      li.innerHTML = `${item.icon || ""}<span>${item.label}</span>`;
+      if (item.icon) {
+        const iconWrap = document.createElement("span");
+        iconWrap.innerHTML = item.icon;
+        li.appendChild(iconWrap);
+      }
+      const label = document.createElement("span");
+      label.textContent = item.label;
+      li.appendChild(label);
+      li.setAttribute("role", "menuitem");
+      li.tabIndex = 0;
       li.addEventListener("click", () => { hide(); item.action(); });
+      li.addEventListener("keydown", (e) => { if (e.key === "Enter") { hide(); item.action(); } });
       menuList.appendChild(li);
     });
 

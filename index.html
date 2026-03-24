@@ -45,6 +45,7 @@
               id="android-search-input"
               placeholder="Search"
               autocomplete="off"
+              aria-label="Search"
             />
             <!-- Mic icon -->
             <svg
@@ -81,6 +82,7 @@
               id="search-input"
               placeholder="Search..."
               autocomplete="off"
+              aria-label="Search"
             />
           </div>
         </form>
@@ -99,12 +101,12 @@
 
     <!-- Context menu -->
     <div id="context-menu" class="hidden">
-      <ul id="context-menu-list"></ul>
+      <ul id="context-menu-list" role="menu" aria-label="Actions"></ul>
     </div>
 
     <!-- Icon edit modal -->
     <div id="modal-overlay" class="hidden">
-      <div id="modal">
+      <div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <h2 id="modal-title">Add Icon</h2>
 
         <label
@@ -149,7 +151,7 @@
 
     <!-- Settings modal -->
     <div id="settings-overlay" class="hidden">
-      <div id="settings-modal">
+      <div id="settings-modal" role="dialog" aria-modal="true" aria-label="Settings">
         <h2>Settings</h2>
 
         <section>

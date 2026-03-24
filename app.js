@@ -27,11 +27,26 @@ function safeRead(key, fallback) {
   }
 }
 
+function showToast(message) {
+  let container = document.getElementById("toast-container");
+  if (!container) {
+    container = document.createElement("div");
+    container.id = "toast-container";
+    document.body.appendChild(container);
+  }
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
 function safeWrite(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (e) {
     console.error("Storage write failed", key, e);
+    showToast("Storage error — changes may not be saved.");
   }
 }
 
