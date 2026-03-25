@@ -204,16 +204,27 @@ const App = (() => {
     render();
   }
 
+  function getIcons() {
+    return [...icons];
+  }
+
+  function importIcons(importedIcons) {
+    icons = importedIcons;
+    saveIcons(icons);
+    render();
+  }
+
   init();
 
   return {
     addIcon,
     updateIcon,
     deleteIcon,
-    toggleDock,
     persistOrder,
     getSettings,
     updateSetting,
     reload,
+    getIcons,
+    importIcons,
   };
 })();
