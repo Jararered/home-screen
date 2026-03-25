@@ -118,8 +118,6 @@ const Icons = (() => {
         dragSrc = null;
       }, 100);
     }
-    // Persist new order
-    if (window.App) App.persistOrder();
   }
 
   function onDragOver(e) {
@@ -193,7 +191,7 @@ const Icons = (() => {
   /**
    * Returns a promise that resolves to an image src for the favicon.
    */
-  function fetchFaviconSrc(siteUrl) {
+  function fetchFaviconSrc(siteUrl, timeout = 10000) {
     return new Promise((resolve, reject) => {
       const src = faviconUrl(siteUrl);
       if (!src) {
@@ -201,8 +199,27 @@ const Icons = (() => {
         return;
       }
       const img = new Image();
-      img.onload = () => resolve(src);
-      img.onerror = () => reject(new Error("Favicon not found"));
+      let settled = false;
+      const timer = setTimeout(() => {
+        if (!settled) {
+          settled = true;
+          reject(new Error("Favicon fetch timed out"));
+        }
+      }, timeout);
+      img.onload = () => {
+        if (!settled) {
+          settled = true;
+          clearTimeout(timer);
+          resolve(src);
+        }
+      };
+      img.onerror = () => {
+        if (!settled) {
+          settled = true;
+          clearTimeout(timer);
+          reject(new Error("Favicon not found"));
+        }
+      };
       img.src = src;
     });
   }

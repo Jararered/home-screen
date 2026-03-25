@@ -9,45 +9,51 @@
 }
 
 :root {
-  --grid-cols: 5;
-  --icon-size: 68px;
-  --icon-gap: 20px;
-  --label-font-size: 13px;
-  --label-font: "Roboto", "Google Sans", sans-serif;
-  --dock-height: 90px;
-  --search-height: 52px;
-  --transition: 0.2s ease;
-  --shadow-color: rgba(0, 0, 0, 0.35);
+  --icon-size: 72px;
+  --icon-gap: max(16px, 2vmin);
+  --label-font-size: 14px;
+  --label-font:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --transition: 0.15s ease;
 
-  --icon-bg: rgba(255, 255, 255, 0.12);
-  --icon-bg-hover: rgba(255, 255, 255, 0.22);
-  --icon-shadow: 0 2px 8px var(--shadow-color);
-  --label-color: #fff;
-  --label-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
-  --dock-bg: rgba(255, 255, 255, 0.15);
-  --dock-blur: blur(20px);
-  --dock-radius: 28px;
-  --search-bg: rgba(255, 255, 255, 0.2);
-  --search-blur: blur(16px);
-  --search-radius: 26px;
-  --search-color: #fff;
-  --search-placeholder: rgba(255, 255, 255, 0.65);
-  --modal-bg: #1e1e2e;
-  --modal-color: #e0e0e0;
-  --modal-input-bg: #2a2a3e;
-  --modal-border: #3a3a5e;
-  --modal-radius: 18px;
-  --accent: #4f8ef7;
-  --danger: #e05252;
-  --settings-btn-color: rgba(255, 255, 255, 0.75);
+  --bg-color: #ffffff;
+  --grid-color: rgba(0, 0, 0, 0.06);
+  --text-color: #000000;
+  --icon-bg: #ffffff;
+  --icon-border: #000000;
+  --icon-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  --modal-bg: #ffffff;
+  --modal-border: #000000;
+  --modal-text: #000000;
+  --modal-input-bg: #f8f8f8;
+  --modal-input-border: #cccccc;
+  --accent: #000000;
+  --danger: #cc0000;
+  --settings-btn-color: rgba(0, 0, 0, 0.6);
 
-  --icon-radius: 22px;
-  --icon-img-width: 80%;
-  --icon-img-height: 80%;
+  --icon-radius: 0;
+  --icon-img-width: calc(100% - 24px);
+  --icon-img-height: calc(100% - 24px);
   --icon-img-object-fit: contain;
 }
 
-/* === Icon Shape Presets === */
+body.dark-mode {
+  --bg-color: #1a1a1a;
+  --grid-color: rgba(255, 255, 255, 0.08);
+  --text-color: #ffffff;
+  --icon-bg: #2a2a2a;
+  --icon-border: #ffffff;
+  --icon-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --modal-bg: #2a2a2a;
+  --modal-border: #ffffff;
+  --modal-text: #ffffff;
+  --modal-input-bg: #333333;
+  --modal-input-border: #ffffff;
+  --accent: #ffffff;
+  --settings-btn-color: rgba(255, 255, 255, 0.6);
+}
+
+/* === Body & Wallpaper === */
 
 .preset-ios-icons {
   --icon-radius: 18px;
@@ -70,29 +76,12 @@
   --icon-img-object-fit: contain;
 }
 
-/* === Search Bar Presets === */
-
-.search-preset-google #android-search-form {
-  display: block;
-}
-.search-preset-google #search-form {
-  display: none;
-}
-.search-preset-minimal #android-search-form {
-  display: none;
-}
-.search-preset-minimal #search-form {
-  display: block;
-}
-
 /* === Visual Theme Presets === */
 
 .preset-ios {
   --dock-radius: 26px;
   --dock-bg: rgba(255, 255, 255, 0.25);
   --dock-blur: blur(30px);
-  --search-bg: rgba(255, 255, 255, 0.22);
-  --search-radius: 14px;
   --label-font: -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif;
 }
 
@@ -138,13 +127,21 @@ body {
   position: fixed;
   inset: 0;
   z-index: 0;
-  background-color: #1a1a2e;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition:
-    background-color 0.4s ease,
-    background-image 0.4s ease;
+  background-color: var(--bg-color);
+  background-image:
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
 }
 
 /* === App Layout === */
@@ -159,128 +156,13 @@ body {
   padding: 16px 0 0;
 }
 
-/* === Search Bar === */
-
-#search-bar-container {
-  flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  padding: 8px 24px 16px;
-}
-
-#search-form,
-#android-search-form {
-  width: 100%;
-  max-width: 560px;
-}
-
-#search-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--search-bg);
-  backdrop-filter: var(--search-blur);
-  -webkit-backdrop-filter: var(--search-blur);
-  border-radius: var(--search-radius);
-  padding: 0 18px;
-  height: var(--search-height);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  transition:
-    border-color var(--transition),
-    box-shadow var(--transition);
-}
-
-#search-bar:focus-within {
-  border-color: rgba(255, 255, 255, 0.35);
-  box-shadow: 0 0 0 2px rgba(79, 142, 247, 0.3);
-}
-
-#search-icon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  color: var(--search-placeholder);
-}
-
-#search-input {
-  flex: 1;
-  background: none;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  color: var(--search-color);
-  caret-color: var(--accent);
-}
-
-#search-input::placeholder {
-  color: var(--search-placeholder);
-}
-
-/* Android Google Search Widget */
-
-#android-search-widget {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 28px;
-  padding: 0 16px 0 14px;
-  height: var(--search-height);
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.25),
-    0 1px 3px rgba(0, 0, 0, 0.15);
-  transition: box-shadow var(--transition);
-}
-
-#android-search-widget:focus-within {
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.3),
-    0 1px 4px rgba(0, 0, 0, 0.2);
-}
-
-#android-search-logo {
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-}
-
-#android-search-input {
-  flex: 1;
-  background: none;
-  border: none;
-  outline: none;
-  font-size: 16px;
-  color: #202124;
-  caret-color: #4285f4;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-#android-search-input::placeholder {
-  color: #5f6368;
-}
-
-#android-search-mic {
-  width: 22px;
-  height: 22px;
-  flex-shrink: 0;
-  color: #4285f4;
-  cursor: pointer;
-  opacity: 0.85;
-  transition: opacity var(--transition);
-}
-
-#android-search-mic:hover {
-  opacity: 1;
-}
-
 /* === Icon Grid === */
 
 #grid-container {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 8px 16px;
+  padding: max(24px, 3vmin);
   scrollbar-width: none;
 }
 
@@ -290,50 +172,10 @@ body {
 
 #icon-grid {
   display: grid;
-  grid-template-columns: repeat(var(--grid-cols), 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: var(--icon-gap);
-  padding: 8px 0 16px;
   align-items: start;
   justify-items: center;
-}
-
-/* === Dock === */
-
-#dock-container {
-  flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  padding: 8px 24px 24px;
-}
-
-#dock {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  background: var(--dock-bg);
-  backdrop-filter: var(--dock-blur);
-  -webkit-backdrop-filter: var(--dock-blur);
-  border-radius: var(--dock-radius);
-  min-height: var(--dock-height);
-  min-width: 80px;
-  padding: 12px 20px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-/* Android dock: no frosted glass */
-.preset-android #dock {
-  background: none;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border: none;
-}
-
-#dock:empty::after {
-  content: "Right-click to add dock icons";
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 12px;
-  pointer-events: none;
 }
 
 /* === Icons === */
@@ -360,21 +202,19 @@ body {
   width: var(--icon-size);
   height: var(--icon-size);
   border-radius: var(--icon-radius);
+  border: 1px solid var(--icon-border);
   background: var(--icon-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   box-shadow: var(--icon-shadow);
-  transition:
-    transform var(--transition),
-    background var(--transition);
+  transition: transform var(--transition);
 }
 
 .icon-wrapper:hover .icon-img-wrap,
 .icon-wrapper:active .icon-img-wrap {
-  transform: scale(0.93);
-  background: var(--icon-bg-hover);
+  transform: scale(0.95);
 }
 
 .icon-img-wrap img {
@@ -387,17 +227,13 @@ body {
 .icon-label {
   font-family: var(--label-font);
   font-size: var(--label-font-size);
-  font-weight: 700;
-  color: var(--label-color);
-  text-shadow: var(--label-shadow);
+  font-weight: 500;
+  color: var(--text-color);
+  text-shadow: none;
   text-align: center;
   min-width: 100%;
   white-space: nowrap;
   line-height: 1.2;
-}
-
-#dock .icon-label {
-  display: none;
 }
 
 /* === Context Menu === */
@@ -405,26 +241,12 @@ body {
 #context-menu {
   position: fixed;
   z-index: 1000;
-  background: rgba(40, 40, 55, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
-  padding: 6px;
+  background: var(--modal-bg);
+  border: 2px solid var(--modal-border);
+  border-radius: 0;
+  padding: 8px;
   min-width: 180px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-  animation: ctx-fade-in 0.12s ease;
-}
-
-@keyframes ctx-fade-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 #context-menu.hidden {
@@ -436,23 +258,29 @@ body {
 }
 
 #context-menu-list li {
-  padding: 9px 14px;
+  padding: 10px 14px;
   font-size: 14px;
-  color: #e0e0e0;
-  border-radius: 8px;
+  color: var(--modal-text);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 10px;
-  transition: background var(--transition);
+  transition:
+    background var(--transition),
+    color var(--transition);
 }
 
 #context-menu-list li:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--text-color);
+  color: var(--bg-color);
 }
 
 #context-menu-list li.danger {
   color: var(--danger);
+}
+
+#context-menu-list li.danger:hover {
+  color: var(--bg-color);
 }
 
 #context-menu-list li svg {
@@ -468,15 +296,10 @@ body {
   position: fixed;
   inset: 0;
   z-index: 900;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(4px);
-}
-
-#modal-overlay {
-  animation: overlay-in 0.15s ease;
 }
 
 #modal-overlay.hidden,
@@ -484,43 +307,27 @@ body {
   display: none;
 }
 
-@keyframes overlay-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-#modal {
+#modal,
+#settings-modal {
   background: var(--modal-bg);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--modal-radius);
-  padding: 28px 28px 22px;
+  border: 2px solid var(--modal-border);
+  border-radius: 0;
+  padding: 24px;
   width: min(460px, 92vw);
   display: flex;
   flex-direction: column;
   gap: 16px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
-  animation: modal-in 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes modal-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-#modal h2 {
+#modal h2,
+#settings-modal h2 {
   font-size: 18px;
   font-weight: 600;
-  color: var(--modal-color);
+  color: var(--modal-text);
+  border-bottom: 2px solid var(--modal-border);
+  padding-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 #modal label {
@@ -530,15 +337,15 @@ body {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--modal-text);
 }
 
 #modal label input[type="text"],
 #modal label input[type="url"] {
   background: var(--modal-input-bg);
-  border: 1px solid var(--modal-border);
-  border-radius: 10px;
-  color: var(--modal-color);
+  border: 1px solid var(--modal-input-border);
+  border-radius: 0;
+  color: var(--modal-text);
   font-size: 14px;
   padding: 10px 14px;
   outline: none;
@@ -565,9 +372,9 @@ body {
 #modal-icon-preview {
   width: 52px;
   height: 52px;
-  border-radius: var(--icon-radius);
+  border-radius: 0;
   background: var(--modal-input-bg);
-  border: 1px solid var(--modal-border);
+  border: 1px solid var(--modal-input-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -588,7 +395,7 @@ body {
   text-transform: none;
   letter-spacing: 0;
   font-size: 14px;
-  color: var(--modal-color);
+  color: var(--modal-text);
   cursor: pointer;
 }
 
@@ -608,17 +415,9 @@ body {
 /* === Settings Modal === */
 
 #settings-modal {
-  background: var(--modal-bg);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--modal-radius);
-  padding: 28px;
-  width: min(480px, 94vw);
   max-height: 90vh;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
   gap: 20px;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
 }
 
 #settings-modal::-webkit-scrollbar {
@@ -628,22 +427,27 @@ body {
   background: transparent;
 }
 #settings-modal::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode #settings-modal::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2);
-  border-radius: 3px;
 }
 
 #settings-modal h2 {
   font-size: 20px;
   font-weight: 600;
-  color: var(--modal-color);
+  color: var(--modal-text);
 }
 
 #settings-modal h3 {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--modal-text);
   margin-bottom: 10px;
+  border-bottom: 1px solid var(--modal-border);
+  padding-bottom: 8px;
 }
 
 #settings-modal section {
@@ -664,16 +468,16 @@ body {
   flex-direction: column;
   gap: 6px;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--modal-text);
 }
 
 #settings-modal input[type="url"],
 #settings-modal input[type="number"],
 #settings-modal select {
   background: var(--modal-input-bg);
-  border: 1px solid var(--modal-border);
-  border-radius: 10px;
-  color: var(--modal-color);
+  border: 1px solid var(--modal-input-border);
+  border-radius: 0;
+  color: var(--modal-text);
   font-size: 14px;
   padding: 9px 12px;
   outline: none;
@@ -684,8 +488,8 @@ body {
 #settings-modal input[type="color"] {
   width: 44px;
   height: 34px;
-  border: 1px solid var(--modal-border);
-  border-radius: 8px;
+  border: 1px solid var(--modal-input-border);
+  border-radius: 0;
   background: none;
   cursor: pointer;
   padding: 2px;
@@ -696,10 +500,7 @@ body {
   border-color: var(--accent);
 }
 
-#theme-toggle-group,
-#icon-bg-toggle-group,
-#icon-preset-toggle-group,
-#search-bar-preset-toggle-group {
+#color-mode-toggle-group {
   display: flex;
   gap: 8px;
 }
@@ -715,55 +516,40 @@ body {
   justify-content: flex-end;
 }
 
-#icon-custom-settings {
-  margin-top: 12px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
-}
-
-#icon-custom-settings .setting-row {
-  margin-bottom: 8px;
-}
-#icon-custom-settings .setting-row:last-child {
-  margin-bottom: 0;
-}
-
-#icon-custom-settings label {
+#data-buttons {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  font-size: 11px;
-  color: rgba(255, 255, 255, 0.5);
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
-#icon-custom-settings input[type="range"] {
-  width: 100%;
-  cursor: pointer;
-}
-
-#icon-radius-value,
-#icon-image-size-value {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 12px;
+#settings-actions {
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* === Buttons === */
 
 button {
   cursor: pointer;
-  border: none;
+  border: 1px solid var(--modal-border);
   font-size: 14px;
   font-family: inherit;
-  border-radius: 10px;
-  padding: 9px 18px;
+  border-radius: 0;
+  padding: 10px 18px;
   transition:
     background var(--transition),
-    opacity var(--transition);
+    color var(--transition);
+  background: var(--modal-bg);
+  color: var(--modal-text);
 }
 
 button:active {
   opacity: 0.75;
+}
+
+button:hover {
+  background: var(--text-color);
+  color: var(--bg-color);
 }
 
 /* Primary */
@@ -771,15 +557,16 @@ button:active {
 #settings-apply-wallpaper,
 #settings-apply-color,
 #modal-fetch-favicon {
-  background: var(--accent);
-  color: #fff;
+  background: var(--text-color);
+  color: var(--bg-color);
 }
 
 #modal-save:hover,
 #settings-apply-wallpaper:hover,
 #settings-apply-color:hover,
 #modal-fetch-favicon:hover {
-  background: #6fa3f8;
+  background: var(--bg-color);
+  color: var(--text-color);
 }
 
 /* Secondary */
@@ -788,68 +575,44 @@ button:active {
 #settings-clear-wallpaper,
 #settings-export,
 #settings-import-btn {
-  background: rgba(255, 255, 255, 0.1);
-  color: #e0e0e0;
-}
-
-#modal-cancel:hover,
-#settings-close:hover,
-#settings-clear-wallpaper:hover,
-#settings-export:hover,
-#settings-import-btn:hover {
-  background: rgba(255, 255, 255, 0.18);
 }
 
 /* Danger */
 #modal-delete {
-  background: rgba(224, 82, 82, 0.15);
   color: var(--danger);
+  border-color: var(--danger);
 }
 
 #modal-delete:hover {
-  background: rgba(224, 82, 82, 0.28);
+  background: var(--danger);
+  color: var(--bg-color);
 }
 
 /* Toggle buttons */
-.theme-btn,
-.icon-bg-btn,
-.icon-preset-btn,
-.search-bar-preset-btn {
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.6);
+.color-mode-btn {
+  background: var(--modal-bg);
+  color: var(--modal-text);
+  border: 1px solid var(--modal-border);
   flex: 1;
   text-align: center;
 }
 
-.theme-btn.active,
-.icon-bg-btn.active,
-.icon-preset-btn.active,
-.search-bar-preset-btn.active {
-  background: var(--accent);
-  color: #fff;
-}
-
-.theme-btn:hover:not(.active),
-.icon-bg-btn:hover:not(.active),
-.icon-preset-btn:hover:not(.active),
-.search-bar-preset-btn:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.15);
+.color-mode-btn.active {
+  background: var(--text-color);
+  color: var(--bg-color);
 }
 
 /* Settings gear button */
 #settings-btn {
   position: fixed;
-  bottom: 28px;
+  bottom: 20px;
   right: 20px;
   z-index: 500;
   width: 36px;
   height: 36px;
   padding: 7px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--modal-bg);
+  border: 1px solid var(--modal-border);
   color: var(--settings-btn-color);
   display: flex;
   align-items: center;
@@ -857,7 +620,7 @@ button:active {
 }
 
 #settings-btn:hover {
-  background: rgba(255, 255, 255, 0.22);
+  color: var(--text-color);
 }
 
 #settings-btn svg {
@@ -889,18 +652,30 @@ button:active {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
-  animation: toast-in 0.2s ease, toast-out 0.2s ease 2.8s forwards;
+  animation:
+    toast-in 0.2s ease,
+    toast-out 0.2s ease 2.8s forwards;
   pointer-events: auto;
 }
 
 @keyframes toast-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes toast-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 /* === Utility === */
