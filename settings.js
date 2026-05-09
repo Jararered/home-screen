@@ -12,6 +12,7 @@ const SettingsModal = (() => {
     importBtn = document.getElementById("settings-import-btn");
     importFile = document.getElementById("settings-import-file");
     settingsGear = document.getElementById("settings-btn");
+    settingsGear.innerHTML = SVGIcons.settings;
 
     settingsGear.addEventListener("click", open);
     closeBtn.addEventListener("click", close);
