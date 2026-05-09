@@ -5,8 +5,15 @@ const STORAGE_KEYS = {
   SETTINGS: "hs_settings",
 };
 
+function getPreferredColorMode() {
+  if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    return "dark";
+  }
+  return "light";
+}
+
 const DEFAULT_SETTINGS = {
-  colorMode: "light",
+  colorMode: getPreferredColorMode(),
   gridGap: 16,
 };
 
@@ -62,41 +69,6 @@ function saveSettings(settings) {
   safeWrite(STORAGE_KEYS.SETTINGS, settings);
 }
 
-function exportData() {
-  const data = {
-    version: 1,
-    exported: new Date().toISOString(),
-    icons: loadIcons(),
-    settings: loadSettings(),
-  };
-  const blob = new Blob([JSON.stringify(data, null, 2)], {
-    type: "application/json",
-  });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "home-screen-backup.json";
-  a.click();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
-function importData(file, onSuccess, onError) {
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const data = JSON.parse(e.target.result);
-      if (!Array.isArray(data.icons)) throw new Error("Invalid backup format");
-      saveIcons(data.icons);
-      if (data.settings) saveSettings(data.settings);
-      onSuccess(data);
-    } catch (err) {
-      onError(err);
-    }
-  };
-  reader.onerror = () => onError(new Error("File read error"));
-  reader.readAsText(file);
-}
-
 function generateId() {
   return `icon_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
 }
@@ -119,7 +91,7 @@ const App = (() => {
     document.getElementById("app").addEventListener("contextmenu", (e) => {
       if (!e.target.closest(".icon-wrapper")) {
         e.preventDefault();
-        ContextMenu.showBackgroundMenu(e.clientX, e.clientY, false);
+        ContextMenu.showBackgroundMenu(e.clientX, e.clientY);
       }
     });
 

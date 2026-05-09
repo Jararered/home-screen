@@ -49,8 +49,7 @@ const Icons = (() => {
       img.style.display = "none";
       const fallback = document.createElement("span");
       fallback.textContent = (icon.name || "?")[0].toUpperCase();
-      fallback.style.cssText =
-        "font-size:22px;font-weight:700;color:rgba(255,255,255,0.8);";
+      fallback.className = "icon-fallback";
       imgWrap.appendChild(fallback);
     };
     imgWrap.appendChild(img);

@@ -55,7 +55,7 @@ const ContextMenu = (() => {
   });
   menu.addEventListener("click", (e) => e.stopPropagation());
 
-  function showBackgroundMenu(x, y, inDock) {
+  function showBackgroundMenu(x, y) {
     show(x, y, [
       { icon: SVG.add, label: "Add icon", action: () => Modal.open(null, {}) },
       {

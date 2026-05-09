@@ -55,62 +55,6 @@ body.dark-mode {
 
 /* === Body & Wallpaper === */
 
-.preset-ios-icons {
-  --icon-radius: 18px;
-  --icon-img-width: 80%;
-  --icon-img-height: 80%;
-  --icon-img-object-fit: cover;
-}
-
-.preset-android-icons {
-  --icon-radius: 50%;
-  --icon-img-width: 80%;
-  --icon-img-height: 80%;
-  --icon-img-object-fit: contain;
-}
-
-.preset-squircle-icons {
-  --icon-radius: 28px;
-  --icon-img-width: 80%;
-  --icon-img-height: 80%;
-  --icon-img-object-fit: contain;
-}
-
-/* === Visual Theme Presets === */
-
-.preset-ios {
-  --dock-radius: 26px;
-  --dock-bg: rgba(255, 255, 255, 0.25);
-  --dock-blur: blur(30px);
-  --label-font: -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif;
-}
-
-/* === Icon Background Modes === */
-
-.icon-bg-dark {
-  --icon-bg: rgba(0, 0, 0, 0.45);
-  --icon-bg-hover: rgba(0, 0, 0, 0.6);
-}
-
-.icon-bg-light {
-  --icon-bg: rgba(255, 255, 255, 0.9);
-  --icon-bg-hover: rgba(255, 255, 255, 1);
-}
-
-@media (prefers-color-scheme: dark) {
-  .icon-bg-auto {
-    --icon-bg: rgba(0, 0, 0, 0.45);
-    --icon-bg-hover: rgba(0, 0, 0, 0.6);
-  }
-}
-
-@media (prefers-color-scheme: light) {
-  .icon-bg-auto {
-    --icon-bg: rgba(255, 255, 255, 0.9);
-    --icon-bg-hover: rgba(255, 255, 255, 1);
-  }
-}
-
 /* === Body & Wallpaper === */
 
 html,
@@ -234,6 +178,12 @@ body {
   min-width: 100%;
   white-space: nowrap;
   line-height: 1.2;
+}
+
+.icon-fallback {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-color);
 }
 
 /* === Context Menu === */
@@ -388,23 +338,6 @@ body {
   object-fit: contain;
 }
 
-#modal-dock-label {
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  text-transform: none;
-  letter-spacing: 0;
-  font-size: 14px;
-  color: var(--modal-text);
-  cursor: pointer;
-}
-
-#modal-dock-label input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  accent-color: var(--accent);
-}
-
 #modal-actions {
   display: flex;
   gap: 10px;
@@ -516,17 +449,6 @@ body.dark-mode #settings-modal::-webkit-scrollbar-thumb {
   justify-content: flex-end;
 }
 
-#data-buttons {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-#settings-actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
 /* === Buttons === */
 
 button {
@@ -554,27 +476,15 @@ button:hover {
 
 /* Primary */
 #modal-save,
-#settings-apply-wallpaper,
-#settings-apply-color,
 #modal-fetch-favicon {
   background: var(--text-color);
   color: var(--bg-color);
 }
 
 #modal-save:hover,
-#settings-apply-wallpaper:hover,
-#settings-apply-color:hover,
 #modal-fetch-favicon:hover {
   background: var(--bg-color);
   color: var(--text-color);
-}
-
-/* Secondary */
-#modal-cancel,
-#settings-close,
-#settings-clear-wallpaper,
-#settings-export,
-#settings-import-btn {
 }
 
 /* Danger */
