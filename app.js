@@ -73,6 +73,15 @@ function generateId() {
   return `icon_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
 }
 
+function applyColorMode(mode) {
+  document.body.classList.toggle("dark-mode", mode === "dark");
+}
+
+function applyGridGap(gap) {
+  const safeGap = Math.min(32, Math.max(8, gap));
+  document.documentElement.style.setProperty("--icon-gap", safeGap + "px");
+}
+
 // === App ===
 
 const App = (() => {
@@ -83,10 +92,10 @@ const App = (() => {
 
   function init() {
     icons = loadIcons();
-    settings = loadSettings();
+settings = loadSettings();
 
-    Theme.init(settings);
-    render();
+    applyColorMode(settings.colorMode || "light");
+    applyGridGap(settings.gridGap || 16);
 
     document.getElementById("app").addEventListener("contextmenu", (e) => {
       if (!e.target.closest(".icon-wrapper")) {
@@ -172,7 +181,8 @@ const App = (() => {
   function reload() {
     icons = loadIcons();
     settings = loadSettings();
-    Theme.init(settings);
+    applyColorMode(settings.colorMode || "light");
+    applyGridGap(settings.gridGap || 16);
     render();
   }
 

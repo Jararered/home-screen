@@ -23,7 +23,8 @@ const SettingsModal = (() => {
     colorModeBtns.forEach((btn) =>
       btn.addEventListener("click", () => {
         const mode = btn.dataset.mode;
-        Theme.applyColorMode(mode);
+        document.body.classList.toggle("dark-mode", mode === "dark");
+        colorModeBtns.forEach((b) => b.classList.toggle("active", b.dataset.mode === mode));
         App.updateSetting("colorMode", mode);
       }),
     );
@@ -31,7 +32,7 @@ const SettingsModal = (() => {
     colsInput.addEventListener("change", () => {
       const gap = Math.min(32, Math.max(8, parseInt(colsInput.value, 10) || 16));
       colsInput.value = gap;
-      Theme.applyGridGap(gap);
+      applyGridGap(gap);
       App.updateSetting("gridGap", gap);
     });
 

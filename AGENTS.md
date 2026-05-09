@@ -6,7 +6,7 @@ A zero-dependency static "new tab" page. Vanilla HTML/CSS/JS, no build step, no 
 
 - **IIFE modules** (no module system), loaded synchronously via `<script>` tags in `index.html`.
 - **Script load order matters** (dependency chain):
-  `theme.js` → `svg.js` → `icons.js` → `contextmenu.js` → `settings.js` → `app.js`
+  `svg.js` → `icons.js` → `contextmenu.js` → `settings.js` → `app.js`
 - **Persistence**: `localStorage` with keys `hs_icons` and `hs_settings`.
 - **Hosting**: static files — open `index.html` directly or serve with any static server (e.g. `python3 -m http.server`).
 
