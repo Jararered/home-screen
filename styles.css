@@ -153,13 +153,9 @@ body {
   justify-content: center;
   overflow: hidden;
   box-shadow: var(--icon-shadow);
-  transition: transform var(--transition);
 }
 
-.icon-wrapper:hover .icon-img-wrap,
-.icon-wrapper:active .icon-img-wrap {
-  transform: scale(0.95);
-}
+
 
 .icon-img-wrap img {
   width: var(--icon-img-width);
